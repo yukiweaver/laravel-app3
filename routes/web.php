@@ -12,3 +12,12 @@
 */
 
 Route::get('/', 'ArticleController@index')->name('root');
+Route::get('/test', function() {
+  // $crawler = Goutte::request('GET', 'https://shibuya.uplink.co.jp/movie');
+  // // dd($crawler);
+  //  $crawler->filter('/html/body/div[3]/section[1]/div[1]')->each(function ($node) {
+  //    echo $node->text();
+  //    echo '<br/>';
+  //  });
+  //  return view('welcome');
+});
