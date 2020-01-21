@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Starter Template｜Flat UI')
+@section('title', 'エンタメトーク')
 @section('content')
 <div class="container">
   <div class="row justify-content-center">
