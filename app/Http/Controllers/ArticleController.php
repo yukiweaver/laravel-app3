@@ -8,6 +8,8 @@ use Weidner\Goutte\GoutteFacade as GoutteFacade;
 
 class ArticleController extends Controller
 {
+  const SCRAPE_URL = 'https://news.yahoo.co.jp/topics/entertainment';
+
   /**
    * ホーム画面：エンタメニュース表示アクション
    */
@@ -19,39 +21,28 @@ class ArticleController extends Controller
       $user->ip_address = $ipAddress;
       $user->save();
     }
-    $images = [];
-    $urls   = [];
-    $titles = [];
-    $dates  = [];
+
+    $i = 0;
     $params = [];
-    $goutte = GoutteFacade::request('GET', 'https://news.yahoo.co.jp/topics/entertainment');
-    // //画像のsrc部分を取得
-    // $goutte->filter('.thumbnail > img')->each(function ($node) use (&$images) {
-    //   $images[] = $node->attr('src');
-    // });
-    // // url部分を取得
-    // $goutte->filter('li.newsFeed_item > a')->each(function ($node) use (&$urls) {
-    //   $urls[] = $node->attr('href');
-    // });
-    // // タイトル部分を取得
-    // $goutte->filter('.newsFeed_item_title')->each(function ($node) use (&$titles) {
-    //   $titles[] = $node->text();
-    // });
-    // // 日付部分を取得
-    // $goutte->filter('.newsFeed_item_date')->each(function ($node) use (&$dates) {
-    //   $dates[] = $node->text();
-    // });
-    $goutte->filter('li.newsFeed_item')->each(function ($node) use (&$params) {
-      $params[] = $node->attr('a.newsFeed_item_link > div.newsFeed_item_thumbnail > div.thumbnail.thumbnail-small > img > src');
+    $client = new \Goutte\Client();
+    $goutte = GoutteFacade::request('GET', self::SCRAPE_URL);
+    $goutte->filter('li.newsFeed_item')->each(function ($node) use (&$params, &$i, &$client, &$goutte) {
+      if (count($node->filter('.newsFeed_item_link')) > 0) {
+        $params[$i]['url'] = $node->filter('.newsFeed_item_link')->attr('href');
+        // $client->click($goutte->selectLink($params[$i]['url'])->link());
+      }
+      if (count($node->filter('.thumbnail > img')) > 0) {
+        $params[$i]['image'] = $node->filter('.thumbnail > img')->attr('src');
+      }
+      if (count($node->filter('.newsFeed_item_title')) > 0) {
+        $params[$i]['title'] = $node->filter('.newsFeed_item_title')->text();
+      }
+      if (count($node->filter('.newsFeed_item_date')) > 0) {
+        $params[$i]['date'] = $node->filter('.newsFeed_item_date')->text();
+      }
+      $i ++;
     });
-    // dd($goutte);
-    // $params = [
-    //   'images'  => $images,
-    //   'urls'    => $urls,
-    //   'titles'  => $titles,
-    //   'dates'   => $dates,
-    // ];
-    dd($params);
+    // dd($params);
     $viewParams = [];
     return view('article.index', $viewParams);
   }
