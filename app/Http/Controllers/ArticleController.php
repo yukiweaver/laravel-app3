@@ -25,11 +25,14 @@ class ArticleController extends Controller
     $i = 0;
     $params = [];
     $client = new \Goutte\Client();
-    $goutte = GoutteFacade::request('GET', self::SCRAPE_URL);
+    $goutte = $client->request('GET', self::SCRAPE_URL);
     $goutte->filter('li.newsFeed_item')->each(function ($node) use (&$params, &$i, &$client, &$goutte) {
       if (count($node->filter('.newsFeed_item_link')) > 0) {
         $params[$i]['url'] = $node->filter('.newsFeed_item_link')->attr('href');
-        // $client->click($goutte->selectLink($params[$i]['url'])->link());
+        $test = $node->filter('a')->link();
+        $test2 = $client->click($test);
+        $params[$i]['a_content'] = $test2->html();
+        // dd($test2->html());
       }
       if (count($node->filter('.thumbnail > img')) > 0) {
         $params[$i]['image'] = $node->filter('.thumbnail > img')->attr('src');
@@ -42,6 +45,7 @@ class ArticleController extends Controller
       }
       $i ++;
     });
+    // dd($goutte);
     // dd($params);
     $viewParams = [];
     return view('article.index', $viewParams);
