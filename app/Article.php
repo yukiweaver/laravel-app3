@@ -22,5 +22,13 @@ class Article extends Model
     'title',
     'url',
     'a_content',
+    'image_url',
+    'date',
   ];
+
+  // タイトルをキーに記事を取得
+  public static function findByTitle($title) {
+    $article = self::where('title', $title)->get()->first();
+    return $article;
+  }
 }

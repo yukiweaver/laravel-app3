@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\User;
+use App\Article;
 use Weidner\Goutte\GoutteFacade as GoutteFacade;
 
 class ArticleController extends Controller
@@ -28,14 +29,13 @@ class ArticleController extends Controller
     $goutte = $client->request('GET', self::SCRAPE_URL);
     $goutte->filter('li.newsFeed_item')->each(function ($node) use (&$params, &$i, &$client, &$goutte) {
       if (count($node->filter('.newsFeed_item_link')) > 0) {
-        $params[$i]['url'] = $node->filter('.newsFeed_item_link')->attr('href');
-        $test = $node->filter('a')->link();
-        $test2 = $client->click($test);
-        $params[$i]['a_content'] = $test2->html();
-        // dd($test2->html());
+        $client->click($node->filter('a')->link())->filter('.pickupMain_inner')->each(function($n) use (&$params, &$i) {
+          $params[$i]['a_content'] = $n->filter('.pickupMain_articleSummary')->text();
+          $params[$i]['url'] = $n->filter('.pickupMain_detailLink > a')->attr('href');
+        });
       }
       if (count($node->filter('.thumbnail > img')) > 0) {
-        $params[$i]['image'] = $node->filter('.thumbnail > img')->attr('src');
+        $params[$i]['image_url'] = $node->filter('.thumbnail > img')->attr('src');
       }
       if (count($node->filter('.newsFeed_item_title')) > 0) {
         $params[$i]['title'] = $node->filter('.newsFeed_item_title')->text();
@@ -45,8 +45,21 @@ class ArticleController extends Controller
       }
       $i ++;
     });
+    $dbParams = [];
+    foreach ($params as $key => $val) {
+      $article = Article::findByTitle($val['title']);
+      if (!empty($article)) {
+        continue;
+      }
+      $dbParams[$key]['a_content']  = $val['a_content'];
+      $dbParams[$key]['url']        = $val['url'];
+      $dbParams[$key]['image_url']  = $val['image_url'];
+      $dbParams[$key]['title']      = $val['title'];
+      $dbParams[$key]['date']       = $val['date'];
+    }
     // dd($goutte);
     // dd($params);
+    // dd($dbParams);
     $viewParams = [];
     return view('article.index', $viewParams);
   }
