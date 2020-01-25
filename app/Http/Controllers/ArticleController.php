@@ -9,6 +9,7 @@ use Weidner\Goutte\GoutteFacade as GoutteFacade;
 use Log;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use Validator;
 
 class ArticleController extends Controller
 {
@@ -90,6 +91,23 @@ class ArticleController extends Controller
     return view('article.index', $viewParams);
   }
 
+  public function detail(Request $request)
+  {
+    $articleId = $request->input('article_id');
+    $data = ['article_id' => $articleId];
+    // クエリパラメータチェック
+    $validator = $this->validator($data);
+    if ($validator->fails()) {
+      return redirect(route('root'))->withErrors($validator)->withInput();
+    }
+    $article = Article::find($articleId);
+    $viewParams = [
+      'article' => $article,
+    ];
+    // dd($article);
+    return view('article.detail', $viewParams);
+  }
+
   // private
 
   private function scrape($url) {
@@ -103,5 +121,12 @@ class ArticleController extends Controller
 
     // タイトル部分を取得
     // $goutte->filter('')
+  }
+
+  private function validator($data) {
+    $validator = Validator::make($data, [
+      'article_id' => 'required|numeric',
+    ]);
+    return $validator;
   }
 }

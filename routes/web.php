@@ -12,4 +12,5 @@
 */
 
 Route::get('/', 'ArticleController@index')->name('root');
+Route::get('article/detail', 'ArticleController@detail')->name('detail');
 
