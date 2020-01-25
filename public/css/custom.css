@@ -98,6 +98,119 @@ h3 {
   font-size: 18px;
   line-height: 1.6;
 }
-.msr_box01 span:hover{
-  /* opacity: 0.8; */
+
+/* .balloon1-left {
+  position: relative;
+  display: inline-block;
+  margin: 1.5em 0 1.5em 15px;
+  padding: 7px 10px;
+  min-width: 120px;
+  max-width: 100%;
+  color: #555;
+  font-size: 16px;
+  background: #e0edff;
+}
+
+.balloon1-left:before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: -30px;
+  margin-top: -15px;
+  border: 15px solid transparent;
+  border-right: 15px solid #e0edff;
+}
+
+.balloon1-left p {
+  margin: 0;
+  padding: 0;
+} */
+
+h4 {
+  position: relative;
+  display: inline-block;
+  padding: 0 70px;
+  width: 350px;
+}
+
+h4:before, h4:after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  display: inline-block;
+  width: 45px;
+  height: 1px;
+  background-color: black;
+}
+
+h4:before {
+  left:0;
+}
+h4:after {
+  right: 0;
+}
+
+.head-4 {
+  text-align: center;
+}
+
+.msr_btn12 a{
+  width: 200px;
+  padding:15px;
+  color:#ffffff;
+  font-size: 15px;
+  line-height: 120%;
+  text-align: center;
+  text-decoration: none;
+  background: #CC0033;
+  /* display: block; */
+  position:relative;
+  -webkit-border-radius: 24px;
+  -moz-border-radius: 24px;
+  border-radius: 24px;
+  -webkit-box-shadow:0px 15px 30px -15px rgba(0,0,0,0.3);
+  -moz-box-shadow:0px 15px 30px -15px rgba(0,0,0,0.3);
+  box-shadow:0px 15px 30px -15px rgba(0,0,0,0.3);
+  -webkit-transition: 0.3s ease-out;
+  -moz-transition: 0.3s ease-out;
+  -o-transition: 0.3s ease-out;
+  transition: 0.3s ease-out;
+}
+.msr_btn12 a:hover{
+  opacity:0.7;
+}
+
+p.box {
+  border-bottom: 1px solid rgb(164, 202, 245);
+  padding-bottom: 15px; /* 内容と線との間隔量 */
+}
+
+#footer-btn {
+  position: fixed;
+  bottom: 10px;
+  width: 20%;
+  right: 20px;
+  background-color: #CC0033;
+}
+
+.anime_test {
+  display:  block;                /* ブロック要素にする */
+  margin: 0 auto;                 /* 要素中央揃え */
+  position:  relative;            /* 位置指定 */
+  animation: anime1 1s ease;      /* アニメーション指定 */
+}
+
+@keyframes anime1 {
+  0% {
+      opacity:  0;                /* 透明度指定 */
+      top: 50px;                  /* 位置指定 */
+  }
+  100% {
+      opacity:  1;                /* 透明度指定 */
+      top: 0;                     /* 位置指定 */
+  }
+}
+
+#close-btn {
+  font-size: 12px;
 }

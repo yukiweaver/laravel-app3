@@ -11,12 +11,50 @@
             <span>
               <img src="{{$article->image_url}}" width="500" height="350" alt="img"/>
               <h3 class="ttl">{{$article->title}}</h3>
-              <p>{{$article->a_content}}<a href="{{$article->url}}" target="_blank">続きを読む</a></p>
+              <p>{{$article->a_content}}</p>
+              <p class="msr_btn12">
+                <a href="{{$article->url}}" target="_blank">続きを記事提供元で読む</a>
+              </p>
             </span>
           </div>
         </div>
+        <div class="head-4">
+          <h4>みんなのトーク</h4>
+        </div>
+        <p class="box"> ほげほげ<br>テスト </p>
+        <p class="box"> ほげほげ </p>
+        <p class="box"> ほげほげ </p>
+        <p class="box"> ほげほげ </p>
+        <button id="footer-btn" class="btn btn-primary">この記事についてトークする</button>
+        <form action="#" name="m_form" id="m_form" class="anime_test">
+          <div class="form-group">
+            <label for="textarea1">Textarea:</label>
+            <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
+            <textarea id="textarea1" class="form-control" placeholder="この記事にトークする"></textarea>
+            <input type="submit" value="トーク" class="btn btn-primary">
+          </div>
+        </form>
+        <br>
+        <br>
+        aa
+        <br>
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  let form = document.getElementById('m_form');
+  let footerBtn = document.getElementById('footer-btn');
+  let closeBtn = document.getElementById('close-btn');
+  form.style.display = 'none';
+
+  footerBtn.onclick = function() {
+    form.style.display = '';
+  }
+
+  closeBtn.onclick = function() {
+    form.style.display = 'none';
+  }
+</script>
 @endsection
