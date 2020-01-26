@@ -197,13 +197,13 @@ p.box {
   display:  block;                /* ブロック要素にする */
   margin: 0 auto;                 /* 要素中央揃え */
   position:  relative;            /* 位置指定 */
-  animation: anime1 1s ease;      /* アニメーション指定 */
+  /* animation: anime1 1s ease;      アニメーション指定 */
 }
 
 @keyframes anime1 {
   0% {
       opacity:  0;                /* 透明度指定 */
-      top: 50px;                  /* 位置指定 */
+      top: 0px;                  /* 位置指定 */
   }
   100% {
       opacity:  1;                /* 透明度指定 */
@@ -213,4 +213,24 @@ p.box {
 
 #close-btn {
   font-size: 12px;
+}
+
+#m_form {
+  position: fixed;
+  bottom: 10px;
+  width: 40%;
+  /* right: 20px; */
+  text-align: center;
+  background-color: rgb(177, 172, 173);
+  padding: 20px;
+}
+
+.post {
+  text-align: center;
+}
+
+#textarea1 {
+  resize: vertical;
+  max-height: 500px;
+  min-height: 100px;
 }

@@ -34,7 +34,7 @@ class Article extends Model
 
   // 最新25件の記事を取得
   public static function findLatest() {
-    $articles = self::orderBy('id', 'ASC')->take(25)->get();
+    $articles = self::orderBy('date', 'DESC')->take(25)->get();
     return $articles;
   }
 }

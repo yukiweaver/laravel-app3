@@ -27,8 +27,8 @@ class ArticleController extends Controller
       $user->save();
     }
 
-    $i = 0;
-    $params = [];
+    // $i = 0;
+    // $params = [];
     // $client = new \Goutte\Client();
     // $goutte = $client->request('GET', self::SCRAPE_URL);
     // $goutte->filter('li.newsFeed_item')->each(function ($node) use (&$params, &$i, &$client, &$goutte) {
@@ -104,7 +104,6 @@ class ArticleController extends Controller
     $viewParams = [
       'article' => $article,
     ];
-    // dd($article);
     return view('article.detail', $viewParams);
   }
 

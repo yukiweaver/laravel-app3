@@ -26,14 +26,17 @@
         <p class="box"> ほげほげ </p>
         <p class="box"> ほげほげ </p>
         <button id="footer-btn" class="btn btn-primary">この記事についてトークする</button>
+        <div class="post">
         <form action="#" name="m_form" id="m_form" class="anime_test">
+          @csrf
           <div class="form-group">
             <label for="textarea1">Textarea:</label>
             <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
             <textarea id="textarea1" class="form-control" placeholder="この記事にトークする"></textarea>
-            <input type="submit" value="トーク" class="btn btn-primary">
+            <input type="submit" value="トーク" class="btn btn-primary" id="b_submit">
           </div>
         </form>
+        </div>
         <br>
         <br>
         aa
@@ -53,7 +56,8 @@
     form.style.display = '';
   }
 
-  closeBtn.onclick = function() {
+  closeBtn.onclick = function(event) {
+    event.preventDefault(); // HTMLでの送信をキャンセル
     form.style.display = 'none';
   }
 </script>
