@@ -10,6 +10,7 @@ use Log;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use Validator;
+use App\Http\Requests\ArticleRequest;
 
 class ArticleController extends Controller
 {
@@ -91,7 +92,7 @@ class ArticleController extends Controller
     return view('article.index', $viewParams);
   }
 
-  public function detail(Request $request)
+  public function detail(ArticleRequest $request)
   {
     $articleId = $request->input('article_id');
     $data = ['article_id' => $articleId];

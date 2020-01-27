@@ -27,20 +27,16 @@
         <p class="box"> ほげほげ </p>
         <button id="footer-btn" class="btn btn-primary">この記事についてトークする</button>
         <div class="post">
-        <form action="#" name="m_form" id="m_form" class="anime_test">
-          @csrf
-          <div class="form-group">
-            <label for="textarea1">Textarea:</label>
-            <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
-            <textarea id="textarea1" class="form-control" placeholder="この記事にトークする"></textarea>
-            <input type="submit" value="トーク" class="btn btn-primary" id="b_submit">
-          </div>
-        </form>
+          <form action="#" name="m_form" id="m_form" class="anime_test">
+            @csrf
+            <div class="form-group">
+              <label for="textarea1">トーク:</label>
+              <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
+              <textarea name="m_content" id="m_content" class="form-control" placeholder="この記事にトークする"></textarea>
+              <input type="submit" value="投稿する" class="btn btn-primary" id="b_submit">
+            </div>
+          </form>
         </div>
-        <br>
-        <br>
-        aa
-        <br>
       </div>
     </div>
   </div>
@@ -60,5 +56,41 @@
     event.preventDefault(); // HTMLでの送信をキャンセル
     form.style.display = 'none';
   }
+
+  // var form1 = document.querySelector('form');
+  // var form1 = document.getElementById('test');
+
+  // function post(event) {
+  //   event.preventDefault(); // HTMLでの送信をキャンセル
+  //   fetch('/post/create', {
+  //     method: 'POST',
+  //     body: new FormData(form)
+  //   })
+  //   .then(function(response) {
+  //     return response.json()
+  //   })
+  //   .then(function(json) {
+  //     console.log(json);// Object {コメント保存したよ: "テスト"}
+  //   })
+  // }
+  $(function() {
+    $('#b_submit').click(function(event) {
+      event.preventDefault(); // HTMLでの送信をキャンセル
+      $.ajax({
+        type: 'POST',
+        url: '/post/create',
+        dataType: 'json',
+        data: {
+          'm_content': $('#m_content').val(),
+          '_token': '{{csrf_token()}}'
+        }
+      }).done(function(data) {
+        console.log(data);
+      }).fail(function(data) {
+        alert('システムエラー');
+      });
+    });
+  });
+  
 </script>
 @endsection
