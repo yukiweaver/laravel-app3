@@ -33,6 +33,7 @@
               <label for="textarea1">トーク:</label>
               <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
               <textarea name="m_content" id="m_content" class="form-control" placeholder="この記事にトークする"></textarea>
+              {{-- <input name="m_content" id="m_content" class="form-control"> --}}
               <input type="submit" value="投稿する" class="btn btn-primary" id="b_submit">
             </div>
           </form>
@@ -57,8 +58,7 @@
     form.style.display = 'none';
   }
 
-  // var form1 = document.querySelector('form');
-  // var form1 = document.getElementById('test');
+  // fetch API使ってみたサンプル
 
   // function post(event) {
   //   event.preventDefault(); // HTMLでの送信をキャンセル
@@ -73,8 +73,54 @@
   //     console.log(json);// Object {コメント保存したよ: "テスト"}
   //   })
   // }
+
+  $('#m_form').validate({
+    //検証ルール
+    rules: {
+      m_content: {
+        required: true,
+        minlength: 5
+      }
+    },
+    //入力項目ごとのエラーメッセージ定義
+    messages: {
+      name: {
+        required: 'トークを入力してください',
+        minlength: '5文字以上で入力してください'
+      }
+    },
+
+    //エラーメッセージ出力箇所
+    errorPlacement: function(error, element){
+      error.insertAfter(element);
+    },
+    debug: true
+  });
+
+  let valid = {
+    //検証ルール
+    rules: {
+      m_content: {
+        required: true,
+        minlength: 5
+      }
+    },
+    //入力項目ごとのエラーメッセージ定義
+    messages: {
+      name: {
+        required: 'トークを入力してください',
+        minlength: '5文字以上で入力してください'
+      }
+    }
+  }
+
   $(function() {
     $('#b_submit').click(function(event) {
+      $('#m_form').validate(valid);
+      // 失敗で戻る
+      if (!$('#m_form').valid()) {
+        return false;
+      }
       event.preventDefault(); // HTMLでの送信をキャンセル
       $.ajax({
         type: 'POST',
