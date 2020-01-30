@@ -29,9 +29,11 @@
         <div class="post">
           <form action="#" name="m_form" id="m_form" class="anime_test">
             @csrf
+            <input type="hidden" name="article_id" id="article_id" value="{{$article->id}}">
             <div class="form-group">
               <label for="textarea1">トーク:</label>
               <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
+              <br><span id="error_msg"></span>
               <textarea name="m_content" id="m_content" class="form-control" placeholder="この記事にトークする"></textarea>
               {{-- <input name="m_content" id="m_content" class="form-control"> --}}
               <input type="submit" value="投稿する" class="btn btn-primary" id="b_submit">
@@ -74,50 +76,40 @@
   //   })
   // }
 
-  $('#m_form').validate({
-    //検証ルール
-    rules: {
-      m_content: {
-        required: true,
-        minlength: 5
-      }
-    },
-    //入力項目ごとのエラーメッセージ定義
-    messages: {
-      name: {
-        required: 'トークを入力してください',
-        minlength: '5文字以上で入力してください'
-      }
-    },
-
-    //エラーメッセージ出力箇所
-    errorPlacement: function(error, element){
-      error.insertAfter(element);
-    },
-    debug: true
-  });
-
   let valid = {
     //検証ルール
     rules: {
       m_content: {
         required: true,
-        minlength: 5
+        maxlength: 200
+      },
+      article_id: {
+        required: true,
+        number: true
       }
     },
     //入力項目ごとのエラーメッセージ定義
     messages: {
-      name: {
-        required: 'トークを入力してください',
-        minlength: '5文字以上で入力してください'
+      m_content: {
+        required: 'トークを入力してください。',
+        maxlength: '200文字以内で入力してください。'
+      },
+      article_id: {
+        required: '記事IDの値を入力してください。',
+        number: '記事IDの値が不正です。'
       }
-    }
+    },
+    //エラーメッセージ出力箇所
+    errorPlacement: function(error, element){
+      error.appendTo($('#error_msg'));
+    },
+    debug: true
   }
 
   $(function() {
     $('#b_submit').click(function(event) {
+      // バリデーションチェック
       $('#m_form').validate(valid);
-      // 失敗で戻る
       if (!$('#m_form').valid()) {
         return false;
       }
@@ -128,6 +120,7 @@
         dataType: 'json',
         data: {
           'm_content': $('#m_content').val(),
+          'article_id': $('#article_id').val(),
           '_token': '{{csrf_token()}}'
         }
       }).done(function(data) {
