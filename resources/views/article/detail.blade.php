@@ -24,6 +24,7 @@
         <div class="talk">
           @foreach ($posts as $post)
           <p class="box">
+            <img src="/storage/face001.png" width="60px" height="60px">
             {{$post->created_at}}<br>
             {{$post->m_content}}
           </p>
