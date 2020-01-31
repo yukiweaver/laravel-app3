@@ -21,10 +21,14 @@
         <div class="head-4">
           <h4>みんなのトーク</h4>
         </div>
-        <p class="box"> ほげほげ<br>テスト </p>
-        <p class="box"> ほげほげ </p>
-        <p class="box"> ほげほげ </p>
-        <p class="box"> ほげほげ </p>
+        <div class="talk">
+          @foreach ($posts as $post)
+          <p class="box">
+            {{$post->created_at}}<br>
+            {{$post->m_content}}
+          </p>
+          @endforeach
+        </div>
         <button id="footer-btn" class="btn btn-primary">この記事についてトークする</button>
         <div class="post">
           <form action="#" name="m_form" id="m_form" class="anime_test">
@@ -35,7 +39,6 @@
               <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
               <br><span id="error_msg"></span>
               <textarea name="m_content" id="m_content" class="form-control" placeholder="この記事にトークする"></textarea>
-              {{-- <input name="m_content" id="m_content" class="form-control"> --}}
               <input type="submit" value="投稿する" class="btn btn-primary" id="b_submit">
             </div>
           </form>
@@ -125,6 +128,10 @@
         }
       }).done(function(data) {
         console.log(data);
+        if ($.isEmptyObject(data)) {
+          alert('投稿に失敗しました。');
+          return;
+        }
       }).fail(function(data) {
         alert('システムエラー');
       });

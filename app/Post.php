@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Carbon\Carbon;
 
 class Post extends Model
 {
@@ -33,4 +34,19 @@ class Post extends Model
     'm_content',
     'reply_post_id',
   ];
+
+  /**
+   * 記事IDをキーにして投稿データを取得
+   */
+  public static function findByArticleId($articleId) {
+    $posts = self::where('article_id', $articleId)->orderBy('created_at', 'ASC')->get();
+    if ($posts->isEmpty()) {
+      return;
+    }
+    foreach ($posts as $post) {
+      $post->created_at = Carbon::parse($post->created_at)->format('Y-m-d H:i:s');
+      $post->updated_at = Carbon::parse($post->updated_at)->format('Y-m-d H:i:s');
+    }
+    return $posts;
+  }
 }

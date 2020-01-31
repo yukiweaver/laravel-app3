@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\User;
 use App\Article;
+use App\Post;
 use Weidner\Goutte\GoutteFacade as GoutteFacade;
 use Log;
 use Illuminate\Support\Facades\DB;
@@ -102,8 +103,10 @@ class ArticleController extends Controller
       return redirect(route('root'))->withErrors($validator)->withInput();
     }
     $article = Article::find($articleId);
+    $posts = Post::findByArticleId($articleId);
     $viewParams = [
       'article' => $article,
+      'posts'   => $posts,
     ];
     return view('article.detail', $viewParams);
   }
