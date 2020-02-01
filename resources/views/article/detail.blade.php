@@ -42,7 +42,7 @@
             <form action="#" name="m_form" id="m_form" class="anime_test">
               @csrf
               <input type="hidden" name="article_id" id="article_id" value="{{$article->id}}">
-              <input type="hidden" name="post_id" id="post_id" value="">
+              <input type="hidden" name="reply_post_id" id="reply_post_id" value="">
               <div class="form-group">
                 <label for="textarea1">トーク:</label>
                 <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
@@ -62,17 +62,15 @@
   let form        = document.getElementById('m_form');
   let footerBtn   = document.getElementById('footer-btn');
   let closeBtn    = document.getElementById('close-btn');
-  let replyBtns   = document.getElementsByClassName('reply-btn');
   let mContent    = document.getElementById('m_content');
   let boxes       = document.getElementsByClassName('box');
-  // console.log(replyBtns);
   form.style.display = 'none';
 
   // トークするボタンクリックで発火
   footerBtn.onclick = function() {
     form.style.display = '';
     mContent.placeholder = 'この記事にトークする';
-    document.getElementById('post_id').value = '';
+    document.getElementById('reply_post_id').value = '';
   }
 
   // 閉じるボタンクリックで発火
@@ -86,7 +84,7 @@
     boxes[i].lastElementChild.onclick = function() {
       form.style.display = '';
       mContent.placeholder = `>>${i+1} へ返信`;
-      document.getElementById('post_id').value = boxes[i].id
+      document.getElementById('reply_post_id').value = boxes[i].id
     }
   }
 
@@ -118,7 +116,11 @@
       article_id: {
         required: true,
         number: true
-      }
+      },
+      reply_post_id: {
+        required: false,
+        number: true
+      },
     },
     //入力項目ごとのエラーメッセージ定義
     messages: {
@@ -129,7 +131,10 @@
       article_id: {
         required: '記事IDの値を入力してください。',
         number: '記事IDの値が不正です。'
-      }
+      },
+      reply_post_id: {
+        number: '投稿IDの値が不正です。'
+      },
     },
     //エラーメッセージ出力箇所
     errorPlacement: function(error, element){
@@ -153,12 +158,13 @@
         data: {
           'm_content': $('#m_content').val(),
           'article_id': $('#article_id').val(),
-          'post_id': $('#post_id').val(),
+          'reply_post_id': $('#reply_post_id').val(),
           '_token': '{{csrf_token()}}'
         }
       }).done(function(data) {
         console.log(data);
         if ($.isEmptyObject(data)) {
+          $('#m_content').val('');
           alert('投稿に失敗しました。');
           return;
         }
@@ -167,11 +173,14 @@
         let content     = data.m_content;
         let nextPostNo  = parseInt($('.post_no:last').text()) + 1;
         let postNo      = `<span class="post_no">${nextPostNo}</span>`;
-        $('.talk').append(`<p class='box'>${img}&ensp;${postNo}.&ensp;<span>${createdAt}</span><br><span>${content}</span></p>`);
+        let button      = '<button class="btn btn-sm btn-primary reply-btn">返信する</button>';
+        $('.talk').append(`<p class='box' id=${data.id}>${img}&ensp;${postNo}.&ensp;<span>${createdAt}</span><br><span>${content}</span>${button}</p>`);
+        $('#m_content').val('');
         alert('投稿しました。');
         $('#m_form').css('display', 'none');
         return;
       }).fail(function(data) {
+        $('#m_content').val('');
         alert('システムエラー');
         $('#m_form').css('display', 'none');
       });
