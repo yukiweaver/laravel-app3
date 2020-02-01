@@ -43,7 +43,10 @@ class Post extends Model
     if ($posts->isEmpty()) {
       return;
     }
+    $i = 0;
     foreach ($posts as $post) {
+      $i ++;
+      $post->post_no = $i;
       $post->created_at = Carbon::parse($post->created_at);
       $post->updated_at = Carbon::parse($post->updated_at);
     }

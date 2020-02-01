@@ -26,6 +26,7 @@ class PostRequest extends FormRequest
         return [
             'm_content'   => 'required|string|max:300',
             'article_id'  => 'required|numeric',
+            'post_id'     => 'numeric',
         ];
     }
 }

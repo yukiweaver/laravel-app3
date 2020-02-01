@@ -191,9 +191,9 @@ p.box {
 
 #footer-btn {
   position: fixed;
-  bottom: 10px;
+  bottom: 20px;
   width: 20%;
-  right: 20px;
+  right: 80px;
   background-color: #CC0033;
 }
 
@@ -237,4 +237,8 @@ p.box {
   resize: vertical;
   max-height: 500px;
   min-height: 100px;
+}
+
+.reply-btn {
+  float: right;
 }

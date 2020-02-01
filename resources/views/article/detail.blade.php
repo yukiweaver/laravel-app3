@@ -18,31 +18,40 @@
             </span>
           </div>
         </div>
-        <div class="head-4">
-          <h4>みんなのトーク</h4>
-        </div>
-        <div class="talk">
-          @foreach ($posts as $post)
-          <p class="box" id="{{$post->id}}">
-            <img src="/storage/face001.png" width="60px" height="60px">
-            {{$post->created_at->format('Y-m-d H:i')}}<br>
-            {{$post->m_content}}
-          </p>
-          @endforeach
-        </div>
-        <button id="footer-btn" class="btn btn-primary">この記事についてトークする</button>
-        <div class="post">
-          <form action="#" name="m_form" id="m_form" class="anime_test">
-            @csrf
-            <input type="hidden" name="article_id" id="article_id" value="{{$article->id}}">
-            <div class="form-group">
-              <label for="textarea1">トーク:</label>
-              <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
-              <br><span id="error_msg"></span>
-              <textarea name="m_content" id="m_content" class="form-control" placeholder="この記事にトークする"></textarea>
-              <input type="submit" value="投稿する" class="btn btn-primary" id="b_submit">
-            </div>
-          </form>
+        <div class="everyone-talk" style="width:800px">
+          <div class="head-4">
+            <h4>みんなのトーク</h4>
+          </div>
+          <div class="talk">
+            @if ($posts === null)
+              <p>トークはありません。</p>
+            @else
+              @foreach ($posts as $post)
+              <p class="box" id="{{$post->id}}">
+                <img src="/storage/face001.png" width="60px" height="60px">&ensp;
+                <span class="post_no">{{$post->post_no}}</span>.&ensp;
+                <span>{{$post->created_at->format('Y-m-d H:i')}}</span><br>
+                <span>{{$post->m_content}}</span>
+                <button class="btn btn-sm btn-primary reply-btn">返信する</button>
+              </p>
+              @endforeach
+            @endif
+          </div>
+          <button id="footer-btn" class="btn btn-primary">この記事についてトークする</button>
+          <div class="post">
+            <form action="#" name="m_form" id="m_form" class="anime_test">
+              @csrf
+              <input type="hidden" name="article_id" id="article_id" value="{{$article->id}}">
+              <input type="hidden" name="post_id" id="post_id" value="">
+              <div class="form-group">
+                <label for="textarea1">トーク:</label>
+                <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
+                <br><span id="error_msg"></span>
+                <textarea name="m_content" id="m_content" class="form-control" placeholder="この記事にトークする"></textarea>
+                <input type="submit" value="投稿する" class="btn btn-primary" id="b_submit">
+              </div>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -50,19 +59,38 @@
 </div>
 
 <script>
-  let form = document.getElementById('m_form');
-  let footerBtn = document.getElementById('footer-btn');
-  let closeBtn = document.getElementById('close-btn');
+  let form        = document.getElementById('m_form');
+  let footerBtn   = document.getElementById('footer-btn');
+  let closeBtn    = document.getElementById('close-btn');
+  let replyBtns   = document.getElementsByClassName('reply-btn');
+  let mContent    = document.getElementById('m_content');
+  let boxes       = document.getElementsByClassName('box');
+  // console.log(replyBtns);
   form.style.display = 'none';
 
+  // トークするボタンクリックで発火
   footerBtn.onclick = function() {
     form.style.display = '';
+    mContent.placeholder = 'この記事にトークする';
+    document.getElementById('post_id').value = '';
   }
 
+  // 閉じるボタンクリックで発火
   closeBtn.onclick = function(event) {
     event.preventDefault(); // HTMLでの送信をキャンセル
     form.style.display = 'none';
   }
+
+  // 返信ボタンクリックで発火
+  for (let i=0; i<boxes.length; i++) {
+    boxes[i].lastElementChild.onclick = function() {
+      form.style.display = '';
+      mContent.placeholder = `>>${i+1} へ返信`;
+      document.getElementById('post_id').value = boxes[i].id
+    }
+  }
+
+
 
   // fetch API使ってみたサンプル
 
@@ -125,6 +153,7 @@
         data: {
           'm_content': $('#m_content').val(),
           'article_id': $('#article_id').val(),
+          'post_id': $('#post_id').val(),
           '_token': '{{csrf_token()}}'
         }
       }).done(function(data) {
@@ -133,10 +162,12 @@
           alert('投稿に失敗しました。');
           return;
         }
-        let img = '<img src="/storage/face001.png" width="60px" height="60px">';
-        let createdAt = moment(data.created_at).format('YYYY-MM-DD hh:mm');
-        let content = data.m_content;
-        $('.talk').append(`<p class='box'>${img}${createdAt}<br>${content}</p>`);
+        let img         = '<img src="/storage/face001.png" width="60px" height="60px">';
+        let createdAt   = moment(data.created_at).format('YYYY-MM-DD HH:mm');
+        let content     = data.m_content;
+        let nextPostNo  = parseInt($('.post_no:last').text()) + 1;
+        let postNo      = `<span class="post_no">${nextPostNo}</span>`;
+        $('.talk').append(`<p class='box'>${img}&ensp;${postNo}.&ensp;<span>${createdAt}</span><br><span>${content}</span></p>`);
         alert('投稿しました。');
         $('#m_form').css('display', 'none');
         return;
