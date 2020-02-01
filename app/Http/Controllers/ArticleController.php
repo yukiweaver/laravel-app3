@@ -104,6 +104,7 @@ class ArticleController extends Controller
     }
     $article = Article::find($articleId);
     $posts = Post::findByArticleId($articleId);
+    // dd($posts);
     $viewParams = [
       'article' => $article,
       'posts'   => $posts,

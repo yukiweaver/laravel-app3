@@ -23,9 +23,9 @@
         </div>
         <div class="talk">
           @foreach ($posts as $post)
-          <p class="box">
+          <p class="box" id="{{$post->id}}">
             <img src="/storage/face001.png" width="60px" height="60px">
-            {{$post->created_at}}<br>
+            {{$post->created_at->format('Y-m-d H:i')}}<br>
             {{$post->m_content}}
           </p>
           @endforeach
@@ -133,8 +133,16 @@
           alert('投稿に失敗しました。');
           return;
         }
+        let img = '<img src="/storage/face001.png" width="60px" height="60px">';
+        let createdAt = moment(data.created_at).format('YYYY-MM-DD hh:mm');
+        let content = data.m_content;
+        $('.talk').append(`<p class='box'>${img}${createdAt}<br>${content}</p>`);
+        alert('投稿しました。');
+        $('#m_form').css('display', 'none');
+        return;
       }).fail(function(data) {
         alert('システムエラー');
+        $('#m_form').css('display', 'none');
       });
     });
   });

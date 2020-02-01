@@ -44,9 +44,22 @@ class Post extends Model
       return;
     }
     foreach ($posts as $post) {
-      $post->created_at = Carbon::parse($post->created_at)->format('Y-m-d H:i:s');
-      $post->updated_at = Carbon::parse($post->updated_at)->format('Y-m-d H:i:s');
+      $post->created_at = Carbon::parse($post->created_at);
+      $post->updated_at = Carbon::parse($post->updated_at);
     }
     return $posts;
+  }
+
+  /**
+   * 自分の最新の投稿を一件取得
+   */
+  public static function findBylatest($ipAddress) {
+    $post = self::where('user_ip_address', $ipAddress)->latest()->first();
+    if (empty($post)) {
+      return;
+    }
+    $post->created_at = Carbon::parse($post->created_at);
+    $post->updated_at = Carbon::parse($post->updated_at);
+    return $post;
   }
 }

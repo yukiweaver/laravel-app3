@@ -31,7 +31,8 @@ class PostController extends Controller
       return response()->json();
     }
 
-    $post = Post::where('user_ip_address', $ipAddress)->latest()->first();
+    $post = Post::findBylatest($ipAddress);
+    return response()->json($post);
 
     // echo json_encode($arr);
     // echo $arr;
