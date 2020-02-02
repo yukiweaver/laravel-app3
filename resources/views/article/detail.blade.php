@@ -178,6 +178,15 @@
         $('#m_content').val('');
         alert('投稿しました。');
         $('#m_form').css('display', 'none');
+
+        let boxes = document.getElementsByClassName('box');
+        for (let i=0; i<boxes.length; i++) {
+          boxes[i].lastElementChild.onclick = function() {
+            form.style.display = '';
+            mContent.placeholder = `>>${i+1} へ返信`;
+            document.getElementById('reply_post_id').value = boxes[i].id
+          }
+        }
         return;
       }).fail(function(data) {
         $('#m_content').val('');
