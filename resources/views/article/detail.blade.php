@@ -21,19 +21,31 @@
         <div class="everyone-talk" style="width:800px">
           <div class="head-4">
             <h4>みんなのトーク</h4>
+            <div class="loader">Loading...</div>
           </div>
           <div class="talk">
             @if ($posts === null)
               <p>トークはありません。</p>
             @else
               @foreach ($posts as $post)
-              <p class="box" id="{{$post->id}}">
+              <div class="box" id="{{$post->id}}">
                 <img src="/storage/face001.png" width="60px" height="60px">&ensp;
                 <span class="post_no">{{$post->post_no}}</span>.&ensp;
                 <span>{{$post->created_at->format('Y-m-d H:i')}}</span><br>
                 <span>{{$post->m_content}}</span>
                 <button class="btn btn-sm btn-primary reply-btn">返信する</button>
-              </p>
+                @if (!$post->replyPosts->isEmpty())
+                  <div class="reply-box">
+                    <p class="reply-link" id="reply-link">返信を表示する</p>
+                    <div class="reply-posts">
+                      @foreach ($post->replyPosts as $replyPost)
+                      <span>{{$replyPost->created_at->format('Y-m-d H:i')}}</span><br>
+                      <span>{{$replyPost->r_content}}</span><br>
+                      @endforeach
+                    </div>
+                  </div>
+                @endif
+              </div>
               @endforeach
             @endif
           </div>
@@ -64,6 +76,9 @@
   let closeBtn    = document.getElementById('close-btn');
   let mContent    = document.getElementById('m_content');
   let boxes       = document.getElementsByClassName('box');
+  let replyBoxes  = document.getElementsByClassName('reply-box');
+  let replyPosts  = document.getElementsByClassName('reply-posts');
+
   form.style.display = 'none';
 
   // トークするボタンクリックで発火
@@ -85,6 +100,18 @@
       form.style.display = '';
       mContent.placeholder = `>>${i+1} へ返信`;
       document.getElementById('post_id').value = boxes[i].id
+    }
+  }
+
+  // 返信投稿：初期では非表示
+  for (let z=0; z<replyPosts.length; z++) {
+    replyPosts[z].hidden = true;
+  }
+
+  // 「返信を表示する」クリックで発火
+  for (let x=0; x<replyBoxes.length; x++) {
+    replyBoxes[x].querySelector('p#reply-link').onclick = function() {
+      replyBoxes[x].getElementsByTagName('div')[0].hidden = false;
     }
   }
 
