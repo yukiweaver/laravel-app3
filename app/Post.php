@@ -24,6 +24,13 @@ class Post extends Model
   }
 
   /**
+   * 投稿データの返信投稿データを取得
+   */
+  public function replyPosts() {
+    return $this->hasMany('App\ReplyPost');
+  }
+
+  /**
    * The attributes that are mass assignable.
    *
    * @var array

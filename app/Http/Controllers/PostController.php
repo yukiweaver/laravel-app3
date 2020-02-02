@@ -16,13 +16,11 @@ class PostController extends Controller
     $post = new Post();
     $mContent = $request->input('m_content');
     $articleId = $request->input('article_id');
-    $postId = $request->input('post_id') ?? null;
     $ipAddress = User::find(request()->ip())->ip_address;
     $dbParams = [
       'article_id'        => $articleId,
       'm_content'         => $mContent,
       'user_ip_address'   => $ipAddress,
-      'reply_post_id'     => $postId,
     ];
     try {
       $result = $post->fill($dbParams)->save();

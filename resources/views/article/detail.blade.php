@@ -42,7 +42,7 @@
             <form action="#" name="m_form" id="m_form" class="anime_test">
               @csrf
               <input type="hidden" name="article_id" id="article_id" value="{{$article->id}}">
-              <input type="hidden" name="reply_post_id" id="reply_post_id" value="">
+              <input type="hidden" name="post_id" id="post_id" value="">
               <div class="form-group">
                 <label for="textarea1">トーク:</label>
                 <button class="btn btn-sm btn-default" id="close-btn">閉じる</button>
@@ -70,7 +70,7 @@
   footerBtn.onclick = function() {
     form.style.display = '';
     mContent.placeholder = 'この記事にトークする';
-    document.getElementById('reply_post_id').value = '';
+    document.getElementById('post_id').value = '';
   }
 
   // 閉じるボタンクリックで発火
@@ -84,7 +84,7 @@
     boxes[i].lastElementChild.onclick = function() {
       form.style.display = '';
       mContent.placeholder = `>>${i+1} へ返信`;
-      document.getElementById('reply_post_id').value = boxes[i].id
+      document.getElementById('post_id').value = boxes[i].id
     }
   }
 
@@ -117,7 +117,7 @@
         required: true,
         number: true
       },
-      reply_post_id: {
+      post_id: {
         required: false,
         number: true
       },
@@ -132,7 +132,7 @@
         required: '記事IDの値を入力してください。',
         number: '記事IDの値が不正です。'
       },
-      reply_post_id: {
+      post_id: {
         number: '投稿IDの値が不正です。'
       },
     },
@@ -144,21 +144,29 @@
   }
 
   $(function() {
+    let postId;
+    let url;
     $('#b_submit').click(function(event) {
       // バリデーションチェック
       $('#m_form').validate(valid);
       if (!$('#m_form').valid()) {
         return false;
       }
+      postId = $('#post_id').val();
+      if (postId) {
+        url = '/reply_post/create';
+      } else {
+        url = '/post/create';
+      }
       event.preventDefault(); // HTMLでの送信をキャンセル
       $.ajax({
         type: 'POST',
-        url: '/post/create',
+        url: url,
         dataType: 'json',
         data: {
           'm_content': $('#m_content').val(),
           'article_id': $('#article_id').val(),
-          'reply_post_id': $('#reply_post_id').val(),
+          'post_id': postId,
           '_token': '{{csrf_token()}}'
         }
       }).done(function(data) {
@@ -184,7 +192,7 @@
           boxes[i].lastElementChild.onclick = function() {
             form.style.display = '';
             mContent.placeholder = `>>${i+1} へ返信`;
-            document.getElementById('reply_post_id').value = boxes[i].id
+            document.getElementById('post_id').value = boxes[i].id
           }
         }
         return;
