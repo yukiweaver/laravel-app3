@@ -36,9 +36,11 @@
                 <button class="btn btn-sm btn-primary reply-btn">返信する</button>
                 @if (!$post->replyPosts->isEmpty())
                   <div class="reply-box">
-                    <p class="reply-link" id="reply-link">返信を表示する</p>
+                    <br>
+                    <a href="" class="reply-link" id="reply-link">返信を表示する</a>
                     <div class="reply-posts">
                       @foreach ($post->replyPosts as $replyPost)
+                      <img src="/storage/face002.png" width="50px" height="50px">&ensp;
                       <span>{{$replyPost->created_at->format('Y-m-d H:i')}}</span><br>
                       <span>{{$replyPost->r_content}}</span><br>
                       @endforeach
@@ -96,7 +98,7 @@
 
   // 返信ボタンクリックで発火
   for (let i=0; i<boxes.length; i++) {
-    boxes[i].lastElementChild.onclick = function() {
+    boxes[i].getElementsByTagName('button')[0].onclick = function() {
       form.style.display = '';
       mContent.placeholder = `>>${i+1} へ返信`;
       document.getElementById('post_id').value = boxes[i].id
@@ -110,8 +112,16 @@
 
   // 「返信を表示する」クリックで発火
   for (let x=0; x<replyBoxes.length; x++) {
-    replyBoxes[x].querySelector('p#reply-link').onclick = function() {
-      replyBoxes[x].getElementsByTagName('div')[0].hidden = false;
+    replyBoxes[x].querySelector('a#reply-link').onclick = function(event) {
+      event.preventDefault(); // HTMLでの送信をキャンセル
+      let replyBox = replyBoxes[x].getElementsByTagName('div')[0];
+      if (replyBox.hidden == true) {
+        replyBox.hidden = false;
+        replyBoxes[x].querySelector('a#reply-link').innerHTML = '返信を非表示にする';
+      } else {
+        replyBox.hidden = true;
+        replyBoxes[x].querySelector('a#reply-link').innerHTML = '返信を表示する';
+      }
     }
   }
 

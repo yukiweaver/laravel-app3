@@ -247,6 +247,10 @@ div.box {
   background-color: rgb(238, 212, 222);
 } */
 
+.reply-posts {
+  margin-left: 25px;
+}
+
 .loader {
   color: #4d4c4c;
   font-size: 20px;
