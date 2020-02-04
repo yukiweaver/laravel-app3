@@ -38,7 +38,7 @@
                   <div class="reply-box">
                     <br>
                     <a href="" class="reply-link" id="reply-link">返信を表示する</a>
-                    <div class="reply-posts">
+                    <div class="reply-posts {{$post->id}}">
                       @foreach ($post->replyPosts as $replyPost)
                       <img src="/storage/face002.png" width="50px" height="50px">&ensp;
                       <span>{{$replyPost->created_at->format('Y-m-d H:i')}}</span><br>
@@ -214,19 +214,24 @@
           return;
         }
         let img         = '<img src="/storage/face001.png" width="60px" height="60px">';
+        let replyImg    = '<img src="/storage/face002.png" width="50px" height="50px">';
         let createdAt   = moment(data.created_at).format('YYYY-MM-DD HH:mm');
-        let content     = data.m_content;
+        let content     = data.m_content ? data.m_content : data.r_content;
         let nextPostNo  = parseInt($('.post_no:last').text()) + 1;
         let postNo      = `<span class="post_no">${nextPostNo}</span>`;
         let button      = '<button class="btn btn-sm btn-primary reply-btn">返信する</button>';
-        $('.talk').append(`<p class='box' id=${data.id}>${img}&ensp;${postNo}.&ensp;<span>${createdAt}</span><br><span>${content}</span>${button}</p>`);
+        if (data.m_content) {
+          $('.talk').append(`<p class='box' id=${data.id}>${img}&ensp;${postNo}.&ensp;<span>${createdAt}</span><br><span>${content}</span>${button}</p>`);
+        } else {
+          $(`.${data.post_id}`).append(`${replyImg}&ensp;<span>${createdAt}</span><br><span>${content}</span><br>`);
+        }
         $('#m_content').val('');
         alert('投稿しました。');
         $('#m_form').css('display', 'none');
 
         let boxes = document.getElementsByClassName('box');
         for (let i=0; i<boxes.length; i++) {
-          boxes[i].lastElementChild.onclick = function() {
+          boxes[i].getElementsByTagName('button')[0].onclick = function() {
             form.style.display = '';
             mContent.placeholder = `>>${i+1} へ返信`;
             document.getElementById('post_id').value = boxes[i].id
