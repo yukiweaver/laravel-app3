@@ -223,7 +223,19 @@
         if (data.m_content) {
           $('.talk').append(`<p class='box' id=${data.id}>${img}&ensp;${postNo}.&ensp;<span>${createdAt}</span><br><span>${content}</span>${button}</p>`);
         } else {
-          $(`.${data.post_id}`).append(`${replyImg}&ensp;<span>${createdAt}</span><br><span>${content}</span><br>`);
+          if ($(`.${data.post_id}`).length) {
+            $(`.${data.post_id}`).append(`${replyImg}&ensp;<span>${createdAt}</span><br><span>${content}</span><br>`);
+          } else {
+            $(`#${data.post_id}`).append(
+              $(`<div class="reply-box">`)
+              .append(`<br><a href="" class="reply-link" id="reply-link">返信を非表示にする</a>`)
+              .append(
+                $(`<div class="reply-posts ${data.post_id}">`)
+                .append(`${replyImg}&ensp;<span>${createdAt}</span><br><span>${content}</span><br></div>`)
+                .append('</div>')
+              )
+            )
+          }
         }
         $('#m_content').val('');
         alert('投稿しました。');
@@ -235,6 +247,21 @@
             form.style.display = '';
             mContent.placeholder = `>>${i+1} へ返信`;
             document.getElementById('post_id').value = boxes[i].id
+          }
+        }
+
+        let replyBoxes  = document.getElementsByClassName('reply-box');
+        for (let x=0; x<replyBoxes.length; x++) {
+          replyBoxes[x].querySelector('a#reply-link').onclick = function(event) {
+            event.preventDefault(); // HTMLでの送信をキャンセル
+            let replyBox = replyBoxes[x].getElementsByTagName('div')[0];
+            if (replyBox.hidden == true) {
+              replyBox.hidden = false;
+              replyBoxes[x].querySelector('a#reply-link').innerHTML = '返信を非表示にする';
+            } else {
+              replyBox.hidden = true;
+              replyBoxes[x].querySelector('a#reply-link').innerHTML = '返信を表示する';
+            }
           }
         }
         return;
