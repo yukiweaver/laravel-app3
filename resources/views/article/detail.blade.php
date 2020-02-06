@@ -25,7 +25,7 @@
           </div>
           <div class="talk">
             @if ($posts === null)
-              <p>トークはありません。</p>
+              <p id="no-talk">トークはありません。</p>
             @else
               @foreach ($posts as $post)
               <div class="box" id="{{$post->id}}">
@@ -217,11 +217,14 @@
         let replyImg    = '<img src="/storage/face002.png" width="50px" height="50px">';
         let createdAt   = moment(data.created_at).format('YYYY-MM-DD HH:mm');
         let content     = data.m_content ? data.m_content : data.r_content;
-        let nextPostNo  = parseInt($('.post_no:last').text()) + 1;
+        let nextPostNo  = $('.post_no:last').text() ? parseInt($('.post_no:last').text()) + 1 : 1;
         let postNo      = `<span class="post_no">${nextPostNo}</span>`;
         let button      = '<button class="btn btn-sm btn-primary reply-btn">返信する</button>';
         if (data.m_content) {
-          $('.talk').append(`<p class='box' id=${data.id}>${img}&ensp;${postNo}.&ensp;<span>${createdAt}</span><br><span>${content}</span>${button}</p>`);
+          if ($('#no-talk').length) {
+            $('#no-talk').remove();
+          }
+          $('.talk').append(`<div class='box' id=${data.id}>${img}&ensp;${postNo}.&ensp;<span>${createdAt}</span><br><span>${content}</span>${button}</div>`);
         } else {
           if ($(`.${data.post_id}`).length) {
             $(`.${data.post_id}`).append(`${replyImg}&ensp;<span>${createdAt}</span><br><span>${content}</span><br>`);
