@@ -21,7 +21,7 @@
         <div class="everyone-talk" style="width:800px">
           <div class="head-4">
             <h4>みんなのトーク</h4>
-            <div class="loader">Loading...</div>
+            {{-- <div class="loader">Loading...</div> --}}
           </div>
           <div class="talk">
             @if ($posts === null)

@@ -86,7 +86,9 @@ class ArticleController extends Controller
     //     throw $e;
     //   }
     // }
-    $articles = Article::findLatest();
+    // $articles = Article::findLatest();
+    $articles = Article::all();
+    // dd($articles);
     $viewParams = [
       'articles' => $articles,
     ];

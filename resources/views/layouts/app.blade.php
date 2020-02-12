@@ -31,7 +31,12 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="#">エンタメトーク</a>
+        <a class="navbar-brand" href={{route('root')}}>エンタメトーク</a>
+        <div id="humberger">
+          <div></div>
+          <div></div>
+          <div></div>
+        </div>
       </div>
       <div id="navbar" class="collapse navbar-collapse">
         <ul class="nav navbar-nav">

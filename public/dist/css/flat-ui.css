@@ -4457,7 +4457,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 
 @media (min-width: 768px) {
   .navbar-brand {
-    line-height: 1.042;
+    /* line-height: 1.042; */
     padding: 14px 21px;
   }
 }
@@ -4723,7 +4723,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   background-color: #edf0f1;
 }
 
-.navbar-default .navbar-brand {
+.navbar-default  {
   color: #34495e;
 }
 
