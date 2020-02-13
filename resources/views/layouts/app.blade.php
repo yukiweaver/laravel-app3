@@ -32,7 +32,7 @@
           <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href={{route('root')}}>エンタメトーク</a>
-        <div id="humberger">
+        <div id="humberger" onclick="notificationPage();">
           <div></div>
           <div></div>
           <div></div>
@@ -65,6 +65,12 @@
   
   <script src="{{ url('/') }}/assets/js/prettify.js"></script>
   <script src="{{ url('/') }}/assets/js/application.js"></script>
+
+  <script>
+    function notificationPage() {
+      document.location.href = "{{}}"
+    }
+  </script>
 
 </body>
 </html>

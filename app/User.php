@@ -26,6 +26,12 @@ class User extends Authenticatable
       return $this->hasMany('App\Post', 'user_ip_address');
     }
     
+    /**
+     * ユーザーの通知データを取得
+     */
+    public function notifications() {
+      return $this->hasMany('App\Notification', 'user_ip_address');
+    }
 
     /**
      * The attributes that are mass assignable.
