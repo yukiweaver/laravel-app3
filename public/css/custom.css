@@ -354,3 +354,7 @@ div.box {
 .navbar-brand {
   margin-right: 800px;
 }
+
+.close {
+  display: none;
+}

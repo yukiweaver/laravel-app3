@@ -1,15 +1,15 @@
 @extends('layouts.app')
 @section('title', 'エンタメトーク')
 @section('content')
-<div class="container">
+<div class="container" id="container">
   <div class="row justify-content-center">
     <div class="col-md-12">
-      <div class="card">
+      <div class="card" id="card">
         <h3>エンタメニュース：詳細</h3>
         <div class="card-body">
           <div class="msr_box01" style="text-align: center;">
             <span>
-              <img src="{{$article->image_url}}" width="500" height="350" alt="img"/>
+              <img src="{{$article->image_url}}" width="400" height="350" alt="img"/>
               <h3 class="ttl">{{$article->title}}</h3>
               <p>{{$article->a_content}}</p>
               <p class="msr_btn12">
@@ -71,6 +71,8 @@
     </div>
   </div>
 </div>
+
+@include('notification.index')
 
 <script>
   let form        = document.getElementById('m_form');

@@ -1,7 +1,7 @@
 @extends('layouts.app')
 @section('title', 'エンタメトーク')
 @section('content')
-<div class="container">
+<div class="container" id="container">
   <div class="row justify-content-center">
     <div class="col-md-12">
       @if ($errors->any())
@@ -13,7 +13,7 @@
         </ul>
       </div>
       @endif
-      <div class="card">
+      <div class="card" id="card">
         <h3>エンタメニュース：Top</h3>
         <div class="card-body">
           <ul class="msr_newslist01">
@@ -72,4 +72,5 @@
     </div>
   </div>
 </div>
+@include('notification.index')
 @endsection
