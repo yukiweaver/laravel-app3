@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Notification extends Model
 {
@@ -21,6 +22,20 @@ class Notification extends Model
    */
   protected $fillable = [
     'user_ip_address',
+    'post_id',
     'read_flg',
   ];
+
+  // 未読の通知を取得
+  public static function findByIpAddr($ipAddr) {
+    $notifications = self::from('notifications as n')
+                     ->join('posts as p', 'n.post_id', '=', 'p.id')
+                     ->where('n.user_ip_address', $ipAddr)
+                     ->where('n.read_flg', false)
+                     ->get(['n.*', 'p.m_content']);
+    if ($notifications->isEmpty()) {
+      return [];
+    }
+    return $notifications;
+  }
 }

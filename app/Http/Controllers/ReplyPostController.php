@@ -29,6 +29,7 @@ class ReplyPostController extends Controller
     ];
     $notifiDbParams = [
       'user_ip_address'   => $postUser,
+      'post_id'           => $postId,
     ];
     DB::beginTransaction();
     try {
