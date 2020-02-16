@@ -45,16 +45,19 @@ class ReplyPostController extends Controller
     }
     $this->sendPushNotify($postUser);
     $replyPost = ReplyPost::findBylatest($ipAddress);
-    // $replyPost->user_ip_address = $postUser;
+    $replyPost->user_ip_address = $postUser;
     return response()->json($replyPost);
   }
 
 
+  /**
+   * 個別ユーザにpush通知を送る
+   */
   private function sendPushNotify($ipAddr)
   {
     $fields = array(
       'app_id' => "59d75005-2e14-4243-88c8-1facaa9dc788",
-      'include_external_user_ids' => ['172.19.0.1'],
+      'include_external_user_ids' => [$ipAddr],
       'url' => url('/'),
       // 'tags' => array(array("key" => "customId", "relation" => "=", "value" => "1")),
       'headings' => array('en' => 'It will be announced', 'ja' => 'お知らせです'),
@@ -62,10 +65,8 @@ class ReplyPostController extends Controller
     );
 
     $fields = json_encode($fields);
-    Log::debug($fields);
 
     $ch = curl_init();
-    Log::debug(false);
     curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
     curl_setopt($ch, CURLOPT_HTTPHEADER,
                 array('Content-Type: application/json; charset=utf-8', 'Authorization: Basic OTRlOGFiM2ItOWFlMS00NWU1LWFjOWQtNTM0ZjlhODE4YmVh'));
@@ -76,8 +77,6 @@ class ReplyPostController extends Controller
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
     $response = curl_exec($ch);
-    // Log::debug($ch);
-    Log::debug($response);
     curl_close($ch);
   }
 }

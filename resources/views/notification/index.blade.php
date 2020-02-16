@@ -12,7 +12,6 @@
     </div>
   </div>
 </div>
-<?php phpinfo(); ?>
 
 <script>
   let container = document.getElementById('container');

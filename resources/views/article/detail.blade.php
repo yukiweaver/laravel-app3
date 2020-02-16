@@ -222,6 +222,7 @@
         let nextPostNo  = $('.post_no:last').text() ? parseInt($('.post_no:last').text()) + 1 : 1;
         let postNo      = `<span class="post_no">${nextPostNo}</span>`;
         let button      = '<button class="btn btn-sm btn-primary reply-btn">返信する</button>';
+        let ipAddr      = data.user_ip_address ? data.user_ip_address : '';
         if (data.m_content) {
           if ($('#no-talk').length) {
             $('#no-talk').remove();
@@ -242,7 +243,25 @@
             )
           }
         }
-        
+        var OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+          OneSignal.init({
+              appId: "59d75005-2e14-4243-88c8-1facaa9dc788",
+          });
+
+          if(ipAddr) {
+            //onesignalにIPアドレスをセット
+            OneSignal.on('subscriptionChange', function (isSubscribed) {
+                if (isSubscribed == true) {
+                    OneSignal.setExternalUserId(ipAddr);
+                    OneSignal.getExternalUserId().then(function (id) {
+                    });
+                } else if (isSubscribed == false) {
+                    OneSignal.removeExternalUserId();
+                }
+            });
+          }
+        });
         $('#m_content').val('');
         alert('投稿しました。');
         $('#m_form').css('display', 'none');
