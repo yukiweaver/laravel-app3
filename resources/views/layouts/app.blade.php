@@ -20,6 +20,39 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="{{ url('/') }}/assets/js/jquery.validate.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.2/moment.min.js"></script>
+  <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
+  <script>
+    // var OneSignal = window.OneSignal || [];
+    // OneSignal.push(function() {
+    //   OneSignal.init({
+    //     appId: "59d75005-2e14-4243-88c8-1facaa9dc788",
+    //     autoRegister: false,
+    //     notifyButton: {
+    //       enable: true /* Set to false to hide */
+    //     }
+    //   });
+    // });
+    // OneSignal.push(['sendTag', 'customId', 1, function(tagsSent) {}]); // ここ追加
+    var OneSignal = window.OneSignal || [];
+        OneSignal.push(function () {
+          OneSignal.init({
+              appId: "59d75005-2e14-4243-88c8-1facaa9dc788",
+          });
+
+          // if(isset($loginUser)) {
+            //onesignalにuser_idをセット
+            OneSignal.on('subscriptionChange', function (isSubscribed) {
+                if (isSubscribed == true) {
+                    OneSignal.setExternalUserId('172.19.0.1');
+                    OneSignal.getExternalUserId().then(function (id) {
+                    });
+                } else if (isSubscribed == false) {
+                    OneSignal.removeExternalUserId();
+                }
+            });
+          // }
+        });
+  </script>
 </head>
 <body>
   <nav class="navbar navbar-inverse navbar-fixed-top">

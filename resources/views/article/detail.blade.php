@@ -242,6 +242,7 @@
             )
           }
         }
+        
         $('#m_content').val('');
         alert('投稿しました。');
         $('#m_form').css('display', 'none');

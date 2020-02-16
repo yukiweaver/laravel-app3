@@ -13,11 +13,6 @@ class NotificationController extends Controller
   {
     $ipAddr = User::find(request()->ip())->ip_address;
     $notifications = Notification::findByIpAddr($ipAddr);
-    // $ids = [];
-    // foreach ($notifications as $value) {
-    //   $ids[] = $value->id;
-    // }
-    // Log::debug($ids);
     return response()->json($notifications);
   }
 }
