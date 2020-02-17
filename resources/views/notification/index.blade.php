@@ -5,7 +5,6 @@
         <h3>通知一覧</h3>
         <div class="card-body">
           <ul id="notification-list">
-            <li>テスト</li>
           </ul>
         </div>
       </div>
@@ -23,7 +22,7 @@
 
   $(function() {
     $(function() {
-      // setInterval(update, 5000);
+      setInterval(update, 20000);
     });
 
     function buildHtml(val) {
