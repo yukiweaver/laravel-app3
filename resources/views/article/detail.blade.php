@@ -29,7 +29,7 @@
             @else
               @foreach ($posts as $post)
               <div class="box" id="{{$post->id}}">
-                <img src="/storage/face001.png" width="60px" height="60px">&ensp;
+                <img src="https://arisago.com/official/wp-content/uploads/2017/08/o_face003.png" width="60px" height="60px">&ensp;
                 <span class="post_no">{{$post->post_no}}</span>.&ensp;
                 <span>{{$post->created_at->format('Y-m-d H:i')}}</span><br>
                 <span>{{$post->m_content}}</span>
@@ -40,7 +40,7 @@
                     <a href="" class="reply-link" id="reply-link">返信を表示する</a>
                     <div class="reply-posts {{$post->id}}">
                       @foreach ($post->replyPosts as $replyPost)
-                      <img src="/storage/face002.png" width="50px" height="50px">&ensp;
+                      <img src="https://banpeace.com/wp-content/uploads/2019/07/0ae3602e24015055bb2733b9dfd01aa0.png" width="50px" height="50px">&ensp;
                       <span>{{$replyPost->created_at->format('Y-m-d H:i')}}</span><br>
                       <span>{{$replyPost->r_content}}</span><br>
                       @endforeach
@@ -215,8 +215,8 @@
           alert('投稿に失敗しました。');
           return;
         }
-        let img         = '<img src="/storage/face001.png" width="60px" height="60px">';
-        let replyImg    = '<img src="/storage/face002.png" width="50px" height="50px">';
+        let img         = '<img src="https://arisago.com/official/wp-content/uploads/2017/08/o_face003.png" width="60px" height="60px">';
+        let replyImg    = '<img src="https://banpeace.com/wp-content/uploads/2019/07/0ae3602e24015055bb2733b9dfd01aa0.png" width="50px" height="50px">';
         let createdAt   = moment(data.created_at).format('YYYY-MM-DD HH:mm');
         let content     = data.m_content ? data.m_content : data.r_content;
         let nextPostNo  = $('.post_no:last').text() ? parseInt($('.post_no:last').text()) + 1 : 1;
