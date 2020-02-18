@@ -4,8 +4,26 @@
       <div class="card">
         <h3>通知一覧</h3>
         <div class="card-body">
-          <ul id="notification-list">
-          </ul>
+          <div id="notification-list">
+            <form action="#" id="notify-form">
+              <p>
+                <input type="checkbox" id="test1" name="notify[1][read_flg]"/>
+                <label for="test1">Red</label>
+              </p>
+              <p>
+                <input type="checkbox" id="test2" name="notify[2][read_flg]"/>
+                <label for="test2">Yellow</label>
+              </p>
+              <p>
+                <input type="checkbox" id="test3" name="notify[3][read_flg]"/>
+                <label for="test3">Green</label>
+              </p>
+                <p>
+                  <input type="checkbox" id="test4" name="notify[4][read_flg]"/>
+                  <label for="test4">Brown</label>
+              </p>
+            </form>
+          </div>
         </div>
       </div>
     </div>
@@ -22,15 +40,18 @@
 
   $(function() {
     $(function() {
-      setInterval(update, 20000);
+      setInterval(update, 10000);
     });
 
     function buildHtml(val) {
       let postId = val.post_id;
       let mContent = val.m_content;
+      let notifyId = val.id;
       let html = `
-        <li>投稿id${postId}に返信が届きました。</li>
-        <button class="btn btn-primary">テスト</button>
+              <p>
+                <input type="checkbox" id="check${notifyId}" name="notify[${notifyId}][read_flg]"/>
+                <label for="check${notifyId}">投稿内容　${mContent}にコメントが届いています。</label>
+              </p>
       `;
       return html;
     }
@@ -44,12 +65,11 @@
           '_token': '{{csrf_token()}}'
         }
       }).done(function(data) {
-        $('#notification-list > li').remove();
-        $('#notification-list > button').remove();
+        $('#notify-form > p').remove();
         $.each(data, function(key, val) {
           console.log(val);
           html = buildHtml(val);
-          $('#notification-list').append(html);
+          $('#notify-form').append(html);
         })
       }).fail(function(data) {
         console.log('システムエラー');
