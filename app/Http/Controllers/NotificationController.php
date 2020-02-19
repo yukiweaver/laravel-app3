@@ -15,4 +15,11 @@ class NotificationController extends Controller
     $notifications = Notification::findByIpAddr($ipAddr);
     return response()->json($notifications);
   }
+
+  public function update(Request $request)
+  {
+    $params = $request->notify;
+    Log::debug($params);
+    dd($params);
+  }
 }

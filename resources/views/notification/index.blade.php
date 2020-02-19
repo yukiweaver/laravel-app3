@@ -18,9 +18,12 @@
                 <input type="checkbox" id="test3" name="notify[3][read_flg]"/>
                 <label for="test3">Green</label>
               </p>
-                <p>
+              <p>
                   <input type="checkbox" id="test4" name="notify[4][read_flg]"/>
                   <label for="test4">Brown</label>
+              </p>
+              <p>
+                <input type="submit" id="notify-submit" class="btn btn-primary" value="既読をつける">
               </p>
             </form>
           </div>
@@ -43,16 +46,24 @@
       setInterval(update, 10000);
     });
 
-    function buildHtml(val) {
-      let postId = val.post_id;
-      let mContent = val.m_content;
-      let notifyId = val.id;
-      let html = `
-              <p>
-                <input type="checkbox" id="check${notifyId}" name="notify[${notifyId}][read_flg]"/>
-                <label for="check${notifyId}">投稿内容　${mContent}にコメントが届いています。</label>
-              </p>
-      `;
+    function buildHtml(data) {
+      let html = '';
+      html += `<form action="{{route('n_update')}}" id="notify-form" method="post">`;
+      html += `<input type="hidden" name="_token" value="{{csrf_token()}}">`
+      $.each(data, function(key, val) {
+        let postId = val.post_id;
+        let mContent = val.m_content;
+        let notifyId = val.id;
+        html += `
+        <p>
+          <input type="checkbox" id="check${notifyId}" name="notify[${notifyId}][read_flg]"/>
+          <label for="check${notifyId}">投稿内容　${mContent}にコメントが届いています。（id: ${postId}）</label>
+        </p>
+        `
+      });
+      html += `<p><input type="submit" id="notify-submit" class="btn btn-primary" value="既読をつける"></p>`;
+      html += `</form>`
+      console.log(html);
       return html;
     }
 
@@ -65,14 +76,11 @@
           '_token': '{{csrf_token()}}'
         }
       }).done(function(data) {
-        $('#notify-form > p').remove();
-        $.each(data, function(key, val) {
-          console.log(val);
-          html = buildHtml(val);
-          $('#notify-form').append(html);
-        })
+        $('#notify-form').remove();
+        html = buildHtml(data);
+        $('#notification-list').html(html);
       }).fail(function(data) {
-        console.log('システムエラー');
+        alert('システムエラー');
       });
     }
   });
