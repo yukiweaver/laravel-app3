@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
+use Exception;
 
 class Notification extends Model
 {
@@ -26,7 +27,10 @@ class Notification extends Model
     'read_flg',
   ];
 
-  // 未読の通知を取得
+  /**
+   * 未読の通知データを取得
+   * @return collection
+   */
   public static function findByIpAddr($ipAddr) {
     $notifications = self::from('notifications as n')
                      ->join('posts as p', 'n.post_id', '=', 'p.id')
@@ -37,5 +41,38 @@ class Notification extends Model
       return [];
     }
     return $notifications;
+  }
+
+  /**
+   * 主キーから通知データを取得
+   * @return collection
+   */
+  public static function findByIds($notifyIds) {
+    $notifications = self::whereIn('id', $notifyIds)->get();
+    if ($notifications->isEmpty()) {
+      return [];
+    }
+    return $notifications;
+  }
+
+  /**
+   * 通知を既読へupdate
+   */
+  public static function notifyUpdate($dbParams, $notifyIds) {
+    // $notifications = self::findByIds($notifyIds);
+    // if ($notifications->isEmpty()) {
+    //   return [];
+    // }
+    DB::beginTransaction();
+    try {
+      $result = self::whereIn('id', $notifyIds)->update($dbParams);
+      if (!$result) {
+        throw new Exception('通知の更新処理に失敗しました。');
+      }
+      DB::commit();
+    } catch (Exception $e) {
+      DB::rollback();
+      return ['error' => $e->getMessage()];
+    }
   }
 }

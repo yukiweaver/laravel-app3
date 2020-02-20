@@ -43,26 +43,29 @@
 
   $(function() {
     $(function() {
-      setInterval(update, 10000);
+      setInterval(update, 5000);
     });
 
     function buildHtml(data) {
       let html = '';
-      html += `<form action="{{route('n_update')}}" id="notify-form" method="post">`;
-      html += `<input type="hidden" name="_token" value="{{csrf_token()}}">`
-      $.each(data, function(key, val) {
-        let postId = val.post_id;
-        let mContent = val.m_content;
-        let notifyId = val.id;
-        html += `
-        <p>
-          <input type="checkbox" id="check${notifyId}" name="notify[${notifyId}][read_flg]"/>
-          <label for="check${notifyId}">投稿内容　${mContent}にコメントが届いています。（id: ${postId}）</label>
-        </p>
-        `
-      });
-      html += `<p><input type="submit" id="notify-submit" class="btn btn-primary" value="既読をつける"></p>`;
-      html += `</form>`
+      // html += `<form action="#" id="notify-form" method="post">`;
+      // html += `<input type="hidden" name="_token" value="{{csrf_token()}}">`
+      if (!($.isEmptyObject(data))) {
+        $.each(data, function(key, val) {
+          let postId = val.post_id;
+          let mContent = val.m_content;
+          let notifyId = val.id;
+          html += `
+          <p id="check${notifyId}">
+            <input type="checkbox" class="check_read_flg" id="${notifyId}" name="notify[${notifyId}][read_flg]"/>
+            <label for="${notifyId}">投稿内容　${mContent} にコメントが届いています。（id: ${postId}）</label>
+          </p>
+          `
+        });
+        html += `<p><button id="notify-submit" class="btn btn-primary" onclick="notifyUpdate();">既読をつける</button></p>`;
+        // html += `</form>`
+      }
+      
       console.log(html);
       return html;
     }
@@ -80,8 +83,33 @@
         html = buildHtml(data);
         $('#notification-list').html(html);
       }).fail(function(data) {
-        alert('システムエラー');
+        console.log('システムエラー');
       });
     }
   });
+
+  function notifyUpdate() {
+    let notifyIds = [];
+    $.each($('.check_read_flg'), function(key, val) {
+      if ($(this).prop('checked')) {
+        id = $(this).attr('id');
+        notifyIds.push(id);
+      }
+    });
+    console.log(notifyIds);
+
+    $.ajax({
+      url: "{{route('n_update')}}",
+      type: 'POST',
+      dataType: 'json',
+      data: {
+        'notifyIds': notifyIds,
+        '_token': '{{csrf_token()}}'
+      }
+    }).done(function(data) {
+      console.log(data);
+    }).fail(function(data) {
+      console.log(data);
+    });
+  }
 </script>

@@ -18,8 +18,38 @@ class NotificationController extends Controller
 
   public function update(Request $request)
   {
-    $params = $request->notify;
-    Log::debug($params);
-    dd($params);
+    $notifyIds = $request->input('notifyIds');
+    Log::debug($notifyIds);
+    if (empty($notifyIds)) {
+      return response()->json();
+    }
+    $dbParams = [
+      'read_flg' => true,
+    ];
+    $result = Notification::notifyUpdate($dbParams, $notifyIds);
+    if (is_array($result)) {
+      return $this->putjsonError($result);
+    }
+
+    return response()->json($notifyIds);
+    // dd($params);
+  }
+
+  private function putjsonError($data)
+  {
+    $array = [
+      'status'  => 'ng',
+      'content' => $data, 
+    ];
+    return json_encode($array);
+  }
+
+  private function putjsonSuccess($data)
+  {
+    $array = [
+      'status'  => 'ok',
+      'content' => $data, 
+    ];
+    return json_encode($array);
   }
 }
