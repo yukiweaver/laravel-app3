@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Notification;
 use App\User;
 use Log;
+use App\Http\Requests\NotificationRequest;
 
 class NotificationController extends Controller
 {
@@ -16,40 +17,24 @@ class NotificationController extends Controller
     return response()->json($notifications);
   }
 
-  public function update(Request $request)
+  /**
+   * 既読更新アクション
+   */
+  public function update(NotificationRequest $request)
   {
     $notifyIds = $request->input('notifyIds');
-    Log::debug($notifyIds);
+    Log::debug($_REQUEST);
     if (empty($notifyIds)) {
-      return response()->json();
+      return putjsonError(['error' => '通知を選択してください。']);
     }
     $dbParams = [
       'read_flg' => true,
     ];
     $result = Notification::notifyUpdate($dbParams, $notifyIds);
     if (is_array($result)) {
-      return $this->putjsonError($result);
+      return putjsonError($result);
     }
 
-    return response()->json($notifyIds);
-    // dd($params);
-  }
-
-  private function putjsonError($data)
-  {
-    $array = [
-      'status'  => 'ng',
-      'content' => $data, 
-    ];
-    return json_encode($array);
-  }
-
-  private function putjsonSuccess($data)
-  {
-    $array = [
-      'status'  => 'ok',
-      'content' => $data, 
-    ];
-    return json_encode($array);
+    return putjsonSuccess($notifyIds);
   }
 }

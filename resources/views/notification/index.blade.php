@@ -43,13 +43,11 @@
 
   $(function() {
     $(function() {
-      setInterval(update, 5000);
+      setInterval(update, 15000);
     });
 
     function buildHtml(data) {
       let html = '';
-      // html += `<form action="#" id="notify-form" method="post">`;
-      // html += `<input type="hidden" name="_token" value="{{csrf_token()}}">`
       if (!($.isEmptyObject(data))) {
         $.each(data, function(key, val) {
           let postId = val.post_id;
@@ -63,10 +61,8 @@
           `
         });
         html += `<p><button id="notify-submit" class="btn btn-primary" onclick="notifyUpdate();">既読をつける</button></p>`;
-        // html += `</form>`
       }
       
-      console.log(html);
       return html;
     }
 
@@ -96,7 +92,6 @@
         notifyIds.push(id);
       }
     });
-    console.log(notifyIds);
 
     $.ajax({
       url: "{{route('n_update')}}",
@@ -108,8 +103,20 @@
       }
     }).done(function(data) {
       console.log(data);
+      if (data.status == 'ng') {
+        alert(data.content.error);
+        return;
+      }
+      for (let i=0; i<data.content.length; i++) {
+        checkTag = '#check' + data.content[i];
+        $(checkTag).remove();
+      }
+      alert('通知を既読に更新しました。');
+      return;
     }).fail(function(data) {
+      alert('ステータスコード：' + data.status + '\n' + data.responseText);
       console.log(data);
+      console.log('システムエラー');
     });
   }
 </script>
