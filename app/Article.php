@@ -24,6 +24,7 @@ class Article extends Model
     'a_content',
     'image_url',
     'date',
+    'article_kbn',
   ];
 
   // タイトルをキーに記事を取得

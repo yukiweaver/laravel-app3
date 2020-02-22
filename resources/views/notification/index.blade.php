@@ -5,27 +5,7 @@
         <h3>通知一覧</h3>
         <div class="card-body">
           <div id="notification-list">
-            <form action="#" id="notify-form">
-              <p>
-                <input type="checkbox" id="test1" name="notify[1][read_flg]"/>
-                <label for="test1">Red</label>
-              </p>
-              <p>
-                <input type="checkbox" id="test2" name="notify[2][read_flg]"/>
-                <label for="test2">Yellow</label>
-              </p>
-              <p>
-                <input type="checkbox" id="test3" name="notify[3][read_flg]"/>
-                <label for="test3">Green</label>
-              </p>
-              <p>
-                  <input type="checkbox" id="test4" name="notify[4][read_flg]"/>
-                  <label for="test4">Brown</label>
-              </p>
-              <p>
-                <input type="submit" id="notify-submit" class="btn btn-primary" value="既読をつける">
-              </p>
-            </form>
+            <!-- ここにajax通信で通知一覧を表示 -->
           </div>
         </div>
       </div>

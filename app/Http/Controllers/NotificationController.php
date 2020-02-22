@@ -23,7 +23,6 @@ class NotificationController extends Controller
   public function update(NotificationRequest $request)
   {
     $notifyIds = $request->input('notifyIds');
-    Log::debug($_REQUEST);
     if (empty($notifyIds)) {
       return putjsonError(['error' => '通知を選択してください。']);
     }
