@@ -27,6 +27,8 @@ class ArticleController extends Controller
   const SCRAPE_SCIENCE_URL    = 'https://news.yahoo.co.jp/topics/science';
   const SCRAPE_LOCAL_URL      = 'https://news.yahoo.co.jp/topics/local';
 
+  const MAX = 25;
+
   /**
    * ホーム画面：エンタメニュース表示アクション
    */
@@ -41,7 +43,17 @@ class ArticleController extends Controller
 
     // $this->scrape();
     if ($request->isMethod('post')) {
-      
+      $articleName = $request->input('article_name');
+      $pageId = $request->input('page_id');
+      $articleKbn = getArticleKbn($articleName);
+      $count = Article::countByArticleKbn($articleKbn);
+      $articles = Article::findArticles($articleKbn, $pageId, self::MAX);
+      $viewParams = [
+        'articles' => $articles,
+      ];
+      Log::debug($articleName);
+      Log::debug($articles);
+      return view('article._content', $viewParams);
     }
 
     $articles = Article::all();

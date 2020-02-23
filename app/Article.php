@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
-  const MAX = 25;
 
   /**
    * 記事が持つ投稿データを取得
@@ -43,7 +42,7 @@ class Article extends Model
 
   // 記事の合計数を取得
   public static function countByArticleKbn($articleKbn) {
-    $articlesCount = self::where('article_kbn', $articlekbn)->count();
+    $articlesCount = self::where('article_kbn', $articleKbn)->count();
     return $articlesCount;
   }
 
@@ -54,7 +53,7 @@ class Article extends Model
       $offset = ($pageId - 1) * $max;
     }
     $articles = self::where('article_kbn', $articleKbn)->offset($offset)->limit($max)->get();
-    if (isEmpty($articles)) {
+    if ($articles->isEmpty()) {
       return [];
     }
     return $articles;

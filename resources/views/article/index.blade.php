@@ -57,29 +57,19 @@
           <br>
           <nav>
             <ul id="menu">
-              <li><a class="current" href="return false" id="domestic">国内</a></li>
-              <li><a href="return false" id="world">国際</a></li>
-              <li><a href="return false" id="business">経済</a></li>
-              <li><a href="return false" id="entertainment">エンタメ</a></li>
-              <li><a href="return false" id="sports">スポーツ</a></li>
-              <li><a href="return false" id="it">IT</a></li>
-              <li><a href="return false" id="science">科学</a></li>
-              <li><a href="return false" id="local">地域</a></li>
+              <li><a class="current" href="" id="domestic">国内</a></li>
+              <li><a href="" id="world">国際</a></li>
+              <li><a href="" id="business">経済</a></li>
+              <li><a href="" id="entertainment">エンタメ</a></li>
+              <li><a href="" id="sports">スポーツ</a></li>
+              <li><a href="" id="it">IT</a></li>
+              <li><a href="" id="science">科学</a></li>
+              <li><a href="" id="local">地域</a></li>
             </ul>
           </nav>
           <br>
-          <table class="table table-bordered table-striped table-condensed">
-          @foreach ($articles as $val)
-            <tbody>
-              <tr>
-                <td>
-                  <img src="{{$val->image_url}}" alt="画像" width="65" height="65">
-                  <a href={{route('detail', ['article_id' => $val->id])}}>{{$val->title}}</a>
-                </td>
-                <td>{{$val->date}}</td>
-              </tr>
-            </tbody>
-          @endforeach
+          <table class="table table-bordered table-striped table-condensed" id="article-table">
+            @include('article._content')
           </table>
         </div>
       </div>
@@ -90,8 +80,25 @@
 
 <script>
   let menu = document.getElementById('menu');
-  menu.onclick = function() {
-    alert('test');
+  menu.onclick = function(event) {
+    let articleName = event.target.id;
+    let pageId = '';
+    $.ajax({
+      type: 'POST',
+      url: "{{route('index')}}",
+      dataType: 'html',
+      data: {
+        'article_name': articleName,
+        'page_id': pageId,
+        '_token': '{{csrf_token()}}'
+      }
+    }).done(function(data) {
+      console.log(data);
+      document.getElementById('article-table').innerHTML = data;
+    }).fail(function(data) {
+      console.log(data);
+    });
+    return false;
   }
 </script>
 @endsection
