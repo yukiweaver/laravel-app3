@@ -48,18 +48,24 @@ class ArticleController extends Controller
       $articleKbn = getArticleKbn($articleName);
       $count = Article::countByArticleKbn($articleKbn);
       $articles = Article::findArticles($articleKbn, $pageId, self::MAX);
+      $total = Article::gettotalPage($count, self::MAX);
+      $totalPages = $this->totalPages($total);
       $viewParams = [
         'articles' => $articles,
+        'totalPages'   => $totalPages,
       ];
-      Log::debug($articleName);
-      Log::debug($articles);
       return view('article._content', $viewParams);
     }
 
-    $articles = Article::all();
-    // dd($articles);
+    // 初期はエンタメを表示
+    $articles = Article::where('article_kbn', '5')->get();
+    $count = Article::countByArticleKbn('5');
+    $total = Article::gettotalPage($count, self::MAX);
+    $totalPages = $this->totalPages($total);
+
     $viewParams = [
-      'articles' => $articles,
+      'articles'    => $articles,
+      'totalPages'   => $totalPages,
     ];
     return view('article.index', $viewParams);
   }
@@ -172,5 +178,16 @@ class ArticleController extends Controller
       'article_id' => 'required|numeric',
     ]);
     return $validator;
+  }
+
+  // 合計ページ数から配列を返すkaesu
+  private function totalPages($total) {
+    $totalPages = [];
+    if (isset($total)) {
+      for ($i=1; $i<=$total; $i++) {
+        array_push($totalPages, $i);
+      }
+    }
+    return $totalPages;
   }
 }

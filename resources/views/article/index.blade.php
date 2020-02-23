@@ -68,9 +68,9 @@
             </ul>
           </nav>
           <br>
-          <table class="table table-bordered table-striped table-condensed" id="article-table">
+          <div class="article-content" id="article-content">
             @include('article._content')
-          </table>
+          </div>
         </div>
       </div>
     </div>
@@ -80,9 +80,12 @@
 
 <script>
   let menu = document.getElementById('menu');
+  let selectPage = document.getElementById('select-page');
+
   menu.onclick = function(event) {
     let articleName = event.target.id;
     let pageId = '';
+    document.getElementById('article-table').setAttribute('name', articleName);
     $.ajax({
       type: 'POST',
       url: "{{route('index')}}",
@@ -94,11 +97,32 @@
       }
     }).done(function(data) {
       console.log(data);
-      document.getElementById('article-table').innerHTML = data;
+      document.getElementById('select-page').options[0].selected = true;
+      document.getElementById('article-content').innerHTML = data;
     }).fail(function(data) {
       console.log(data);
     });
     return false;
+  }
+
+  selectPage.onchange = function(event) {
+    let articleName = document.getElementById('article-table').getAttribute('name');
+    let pageId = document.getElementById('select-page').value;
+    $.ajax({
+      type: 'POST',
+      url: "{{route('index')}}",
+      dataType: 'html',
+      data: {
+        'article_name': articleName,
+        'page_id': pageId,
+        '_token': '{{csrf_token()}}'
+      }
+    }).done(function(data) {
+      console.log(data);
+      document.getElementById('article-content').innerHTML = data;
+    }).fail(function(data) {
+      console.log(data);
+    });
   }
 </script>
 @endsection

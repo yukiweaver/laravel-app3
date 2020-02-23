@@ -46,6 +46,15 @@ class Article extends Model
     return $articlesCount;
   }
 
+  // 合計ページ数取得
+  public static function gettotalPage($count, $max) {
+    if (empty($count)) {
+      return null;
+    }
+    return ceil($count / $max);
+  }
+
+  // 記事を取得
   public static function findArticles($articleKbn, $pageId, $max) {
     if (empty($pageId)) {
       $offset = 0;
