@@ -14,7 +14,7 @@
       </div>
       @endif
       <div class="card" id="card">
-        <h3>エンタメニュース：Top</h3>
+        <h3>ニュース：Top</h3>
         <div class="card-body">
           <ul class="msr_newslist01">
             <li>
@@ -54,6 +54,20 @@
               </a>
             </li>
           </ul>
+          <br>
+          <nav>
+            <ul id="menu">
+              <li><a class="current" href="return false" id="domestic">国内</a></li>
+              <li><a href="return false" id="world">国際</a></li>
+              <li><a href="return false" id="business">経済</a></li>
+              <li><a href="return false" id="entertainment">エンタメ</a></li>
+              <li><a href="return false" id="sports">スポーツ</a></li>
+              <li><a href="return false" id="it">IT</a></li>
+              <li><a href="return false" id="science">科学</a></li>
+              <li><a href="return false" id="local">地域</a></li>
+            </ul>
+          </nav>
+          <br>
           <table class="table table-bordered table-striped table-condensed">
           @foreach ($articles as $val)
             <tbody>
@@ -73,4 +87,11 @@
   </div>
 </div>
 @include('notification.index')
+
+<script>
+  let menu = document.getElementById('menu');
+  menu.onclick = function() {
+    alert('test');
+  }
+</script>
 @endsection

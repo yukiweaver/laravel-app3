@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Article extends Model
 {
+  const MAX = 25;
+
   /**
    * 記事が持つ投稿データを取得
    */
@@ -36,6 +38,25 @@ class Article extends Model
   // 最新25件の記事を取得
   public static function findLatest() {
     $articles = self::orderBy('date', 'DESC')->take(25)->get();
+    return $articles;
+  }
+
+  // 記事の合計数を取得
+  public static function countByArticleKbn($articleKbn) {
+    $articlesCount = self::where('article_kbn', $articlekbn)->count();
+    return $articlesCount;
+  }
+
+  public static function findArticles($articleKbn, $pageId, $max) {
+    if (empty($pageId)) {
+      $offset = 0;
+    } else {
+      $offset = ($pageId - 1) * $max;
+    }
+    $articles = self::where('article_kbn', $articleKbn)->offset($offset)->limit($max)->get();
+    if (isEmpty($articles)) {
+      return [];
+    }
     return $articles;
   }
 }
