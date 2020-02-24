@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\User;
 use App\Article;
 use App\Post;
+use App\Batch;
 use Weidner\Goutte\GoutteFacade as GoutteFacade;
 // use Guzzle\Http\Client as GuzzleClient;
 use GuzzleHttp\Client as GuzzleClient;
@@ -63,9 +64,14 @@ class ArticleController extends Controller
     $total = Article::gettotalPage($count, self::MAX);
     $totalPages = $this->totalPages($total);
 
+    // メニューは4件まで表示
+    // $menus = DB::table('batches')->latest()->limit(4)->get();
+    $menus = Batch::findMenu();
+
     $viewParams = [
       'articles'    => $articles,
-      'totalPages'   => $totalPages,
+      'totalPages'  => $totalPages,
+      'menus'       => $menus,
     ];
     return view('article.index', $viewParams);
   }

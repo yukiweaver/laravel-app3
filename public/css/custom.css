@@ -51,9 +51,9 @@
 
 /* 時間の設定 */
 .msr_newslist01 li time {
-  display: table-cell;
+  /* display: table-cell; */
   vertical-align: top;
-  width: 90px;
+  width: 430px;
 }
 
 /* カテゴリの設定 */

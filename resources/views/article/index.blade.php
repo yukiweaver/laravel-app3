@@ -17,50 +17,25 @@
         <h3>ニュース：Top</h3>
         <div class="card-body">
           <ul class="msr_newslist01">
+            @foreach ($menus as $menu)
             <li>
-              <a href="#">
+              <a href="javascript:void(0)">
               <div>
-                <time datetime="2016-1-1">2016.01.01</time>
-                <p class="cat01">cat01</p>
+                <time datetime="{{$menu->time}}">{{$menu->time}}</time>
+                &emsp;<p class="cat01">cat01</p>
               </div>
-              <p> テキストテキスト </p>
+              <p> ニュース記事を更新しました。 </p>
               </a>
             </li>
-            <li>
-              <a href="#">
-              <div>
-                <time datetime="2016-1-1">2016.01.01</time>
-                <p class="cat02">cat02</p>
-              </div>
-              <p> テキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキストテキスト </p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-              <div>
-                <time datetime="2016-1-1">2016.01.01</time>
-                <p class="cat01">cat01</p>
-              </div>
-              <p> テキストテキスト </p>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-              <div>
-                <time datetime="2016-1-1">2016.01.01</time>
-                <p class="cat02">cat02</p>
-              </div>
-              <p> テキストテキスト </p>
-              </a>
-            </li>
+            @endforeach
           </ul>
           <br>
           <nav>
             <ul id="menu">
-              <li><a class="current" href="" id="domestic">国内</a></li>
+              <li><a class="current" href="" id="entertainment">エンタメ</a></li>
+              <li><a href="" id="domestic">国内</a></li>
               <li><a href="" id="world">国際</a></li>
               <li><a href="" id="business">経済</a></li>
-              <li><a href="" id="entertainment">エンタメ</a></li>
               <li><a href="" id="sports">スポーツ</a></li>
               <li><a href="" id="it">IT</a></li>
               <li><a href="" id="science">科学</a></li>
