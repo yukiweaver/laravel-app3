@@ -28,6 +28,11 @@ class Article extends Model
     'article_kbn',
   ];
 
+  // アクセサ：dateカラム表示変更
+  public function getDateAttribute($date) {
+    return substr($date, 0, -5);
+  }
+
   // タイトルをキーに記事を取得
   public static function findByTitle($title) {
     $article = self::where('title', $title)->get()->first();
@@ -61,7 +66,11 @@ class Article extends Model
     } else {
       $offset = ($pageId - 1) * $max;
     }
-    $articles = self::where('article_kbn', $articleKbn)->offset($offset)->limit($max)->get();
+    $articles = self::where('article_kbn', $articleKbn)
+                ->orderBy('created_at', 'DESC')
+                ->offset($offset)
+                ->limit($max)
+                ->get();
     if ($articles->isEmpty()) {
       return [];
     }

@@ -29,6 +29,7 @@ class ArticleController extends Controller
   const SCRAPE_LOCAL_URL      = 'https://news.yahoo.co.jp/topics/local';
 
   const MAX = 25;
+  const ENTAME_ARTICLE_KBN = '5';
 
   /**
    * ホーム画面：エンタメニュース表示アクション
@@ -59,13 +60,13 @@ class ArticleController extends Controller
     }
 
     // 初期はエンタメを表示
-    $articles = Article::where('article_kbn', '5')->get();
-    $count = Article::countByArticleKbn('5');
+    $pageId = '';
+    $articles = Article::findArticles(self::ENTAME_ARTICLE_KBN, $pageId, self::MAX);
+    $count = Article::countByArticleKbn(self::ENTAME_ARTICLE_KBN);
     $total = Article::gettotalPage($count, self::MAX);
     $totalPages = $this->totalPages($total);
 
     // メニューは4件まで表示
-    // $menus = DB::table('batches')->latest()->limit(4)->get();
     $menus = Batch::findMenu();
 
     $viewParams = [

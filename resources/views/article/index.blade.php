@@ -61,6 +61,8 @@
   menu.onclick = function(event) {
     let articleName = event.target.id;
     let pageId = '';
+    let current = document.getElementsByClassName('current');
+    console.log(current);
     $.ajax({
       type: 'POST',
       url: "{{route('index')}}",
@@ -75,6 +77,8 @@
       document.getElementById('article-content').innerHTML = data;
       document.getElementById('select-page').options[0].selected = true;
       document.getElementById('article-table').setAttribute('name', articleName);
+      current[0].classList.remove('current');
+      event.target.classList.add('current');
     }).fail(function(data) {
       console.log(data);
     });
