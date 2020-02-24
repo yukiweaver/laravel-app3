@@ -112,6 +112,10 @@ class GetItemFeed extends Command
         $dbParams[$key]['created_at']   = Carbon::now();
         $dbParams[$key]['updated_at']   = Carbon::now();
       }
+      $batchDbParams = [
+        'created_at' => Carbon::now(),
+        'updated_at' => Carbon::now(),
+      ];
       // dd($goutte);
       // dd($params);
       // dd($dbParams);
@@ -119,7 +123,8 @@ class GetItemFeed extends Command
         DB::beginTransaction();
         try {
           $result = DB::table('articles')->insert($dbParams);
-          if (!$result) {
+          $batchResult = DB::table('batches')->insert($batchDbParams);
+          if (!$result || !$batchResult) {
             throw new Exception;
           }
           DB::commit();
