@@ -81,11 +81,11 @@
 <script>
   let menu = document.getElementById('menu');
   let selectPage = document.getElementById('select-page');
+  let articleContent = document.getElementById('article-content');
 
   menu.onclick = function(event) {
     let articleName = event.target.id;
     let pageId = '';
-    document.getElementById('article-table').setAttribute('name', articleName);
     $.ajax({
       type: 'POST',
       url: "{{route('index')}}",
@@ -97,15 +97,16 @@
       }
     }).done(function(data) {
       console.log(data);
-      document.getElementById('select-page').options[0].selected = true;
       document.getElementById('article-content').innerHTML = data;
+      document.getElementById('select-page').options[0].selected = true;
+      document.getElementById('article-table').setAttribute('name', articleName);
     }).fail(function(data) {
       console.log(data);
     });
     return false;
   }
 
-  selectPage.onchange = function(event) {
+  articleContent.onchange = function(event) {
     let articleName = document.getElementById('article-table').getAttribute('name');
     let pageId = document.getElementById('select-page').value;
     $.ajax({
@@ -120,6 +121,8 @@
     }).done(function(data) {
       console.log(data);
       document.getElementById('article-content').innerHTML = data;
+      document.getElementById('select-page').value = pageId;
+      document.getElementById('article-table').setAttribute('name', articleName);
     }).fail(function(data) {
       console.log(data);
     });
