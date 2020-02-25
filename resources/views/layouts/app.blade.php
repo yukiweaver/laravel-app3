@@ -28,11 +28,11 @@
             appId: "59d75005-2e14-4243-88c8-1facaa9dc788",
         });
 
-        if(ipAddr) {
+        if("{{ Session::has('ip_address') }}") {
           //onesignalにIPアドレスをセット
           OneSignal.on('subscriptionChange', function (isSubscribed) {
               if (isSubscribed == true) {
-                  OneSignal.setExternalUserId(Session::get('ip_address'));
+                  OneSignal.setExternalUserId("{{ Session::get('ip_address') }}");
                   OneSignal.getExternalUserId().then(function (id) {
                   });
               } else if (isSubscribed == false) {
