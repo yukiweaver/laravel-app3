@@ -23,24 +23,24 @@
   <script src="https://cdn.onesignal.com/sdks/OneSignalSDK.js" async=""></script>
   <script>
     var OneSignal = window.OneSignal || [];
-    OneSignal.push(function () {
-      OneSignal.init({
-          appId: "59d75005-2e14-4243-88c8-1facaa9dc788",
-      });
+      OneSignal.push(function () {
+        OneSignal.init({
+            appId: "59d75005-2e14-4243-88c8-1facaa9dc788",
+        });
 
-      // if(isset($loginUser)) {
-        //onesignalにuser_idをセット
-        // OneSignal.on('subscriptionChange', function (isSubscribed) {
-        //     if (isSubscribed == true) {
-        //         OneSignal.setExternalUserId('172.19.0.1');
-        //         OneSignal.getExternalUserId().then(function (id) {
-        //         });
-        //     } else if (isSubscribed == false) {
-        //         OneSignal.removeExternalUserId();
-        //     }
-        // });
-      // }
-    });
+        if(ipAddr) {
+          //onesignalにIPアドレスをセット
+          OneSignal.on('subscriptionChange', function (isSubscribed) {
+              if (isSubscribed == true) {
+                  OneSignal.setExternalUserId(Session::get('ip_address'));
+                  OneSignal.getExternalUserId().then(function (id) {
+                  });
+              } else if (isSubscribed == false) {
+                  OneSignal.removeExternalUserId();
+              }
+          });
+        }
+      });
   </script>
 </head>
 <body>

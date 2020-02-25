@@ -43,9 +43,9 @@ class ReplyPostController extends Controller
       DB::rollback();
       return response()->json();
     }
+    $request->session()->put('ip_address', $postUser); // セッションに格納
     $this->sendPushNotify($postUser);
     $replyPost = ReplyPost::findBylatest($ipAddress);
-    $replyPost->user_ip_address = $postUser;
     return response()->json($replyPost);
   }
 
