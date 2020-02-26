@@ -5,8 +5,8 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card" id="card">
-        <h3>エンタメニュース：詳細</h3>
         <div class="card-body">
+          <h5>ニュース：詳細</h5>
           <div class="msr_box01" style="text-align: center;">
             <span>
               <img src="{{$article->image_url}}" width="400" height="350" alt="img"/>

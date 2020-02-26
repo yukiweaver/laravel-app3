@@ -44,32 +44,25 @@
   </script>
 </head>
 <body>
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href={{route('root')}}>エンタメトーク</a>
-        <div id="humberger">
-          <div></div>
-          <div></div>
-          <div></div>
-        </div>
+  <header>
+    <h1 class="headline">
+      <a>エンタメトーク</a>
+      <div id="humberger">
+        <div></div>
+        <div></div>
+        <div></div>
       </div>
-      <div id="navbar" class="collapse navbar-collapse">
-        <ul class="nav navbar-nav">
-          <?php if(preg_match("/starter/",$_SERVER["REQUEST_URI"])){ echo "<li class='active'>"; }else{ echo "<li>"; } ?><a href="{{ url('/') }}/flat_ui/starter">Home</a></li>
-          <?php if(preg_match("/components/",$_SERVER["REQUEST_URI"])){ echo "<li class='active'>"; }else{ echo "<li>"; } ?><a href="{{ url('/') }}/flat_ui/components">Components</a></li>
-          <?php if(preg_match("/typo/",$_SERVER["REQUEST_URI"])){ echo "<li class='active'>"; }else{ echo "<li>"; } ?><a href="{{ url('/') }}/flat_ui/typo">Typography</a></li>
-          <?php if(preg_match("/forms/",$_SERVER["REQUEST_URI"])){ echo "<li class='active'>"; }else{ echo "<li>"; } ?><a href="{{ url('/') }}/flat_ui/forms">forms</a></li>
-        </ul>
-      </div><!--/.nav-collapse -->
-    </div>
-  </nav>
+    </h1>
+    <ul class="nav-list">
+      <li class="nav-list-item">
+        <a href="{{route('root')}}" style="color:#777">Top</a>
+      </li>
+      <li class="nav-list-item">
+        <a href="{{route('description')}}" style="color:#777">About</a>
+      </li>
+      {{-- <li class="nav-list-item">Topic</li> --}}
+    </ul>
+  </header>
 
   <!-- フラッシュメッセージ -->
   @if (Session::has('flash_message'))
@@ -87,6 +80,11 @@
   
   <script src="{{ url('/') }}/assets/js/prettify.js"></script>
   <script src="{{ url('/') }}/assets/js/application.js"></script>
+
+  <!-- footer -->
+  <footer>
+  	<p>© 2020 Created by Yuki Ueno.</p>
+  </footer>
 
 </body>
 </html>

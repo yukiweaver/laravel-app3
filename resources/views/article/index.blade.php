@@ -14,7 +14,7 @@
       </div>
       @endif
       <div class="card" id="card">
-        <h3>ニュース：Top</h3>
+        <h5>ニュース：Top</h5>
         <div class="card-body">
           <ul class="msr_newslist01">
             @foreach ($menus as $menu)

@@ -77,6 +77,9 @@ class ArticleController extends Controller
     return view('article.index', $viewParams);
   }
 
+  /**
+   * ニュース詳細表示アクション
+   */
   public function detail(ArticleRequest $request)
   {
     $articleId = $request->input('article_id');
@@ -93,6 +96,15 @@ class ArticleController extends Controller
       'posts'   => $posts,
     ];
     return view('article.detail', $viewParams);
+  }
+
+  /**
+   * 説明表示アクション
+   */
+  public function description()
+  {
+    $viewParams = [];
+    return view('article.description', $viewParams);
   }
 
   // private
