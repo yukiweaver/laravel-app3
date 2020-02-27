@@ -209,7 +209,7 @@
           '_token': '{{csrf_token()}}'
         }
       }).done(function(data) {
-        console.log(data);
+        // console.log(data);
         if ($.isEmptyObject(data)) {
           $('#m_content').val('');
           alert('投稿に失敗しました。');

@@ -62,7 +62,6 @@
     let articleName = event.target.id;
     let pageId = '';
     let current = document.getElementsByClassName('current');
-    console.log(current);
     $.ajax({
       type: 'POST',
       url: "{{route('index')}}",
@@ -73,7 +72,7 @@
         '_token': '{{csrf_token()}}'
       }
     }).done(function(data) {
-      console.log(data);
+      // console.log(data);
       document.getElementById('article-content').innerHTML = data;
       document.getElementById('select-page').options[0].selected = true;
       document.getElementById('article-table').setAttribute('name', articleName);

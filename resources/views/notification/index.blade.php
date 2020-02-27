@@ -2,7 +2,7 @@
   <div class="row justify-content-center">
     <div class="col-md-12">
       <div class="card">
-        <h3>通知一覧</h3>
+        <h5>通知一覧</h5>
         <div class="card-body">
           <div id="notification-list">
             <!-- ここにajax通信で通知一覧を表示 -->
@@ -82,7 +82,7 @@
         '_token': '{{csrf_token()}}'
       }
     }).done(function(data) {
-      console.log(data);
+      // console.log(data);
       if (data.status == 'ng') {
         alert(data.content.error);
         return;
