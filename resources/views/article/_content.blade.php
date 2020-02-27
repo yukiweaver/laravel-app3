@@ -5,7 +5,7 @@
     <option value="{{$page}}">{{$page}}</option>
     @endforeach
   </select>
-  <label for="select-page">ページ目を表示</label>
+  <label for="select-page">ページを表示</label>
 </div>
 <table class="table table-bordered table-striped table-condensed" name="entertainment" id="article-table">
   <tbody>
