@@ -7,7 +7,7 @@
       <div class="card" id="card">
         <div class="card-body">
           <h5>ニュース：詳細</h5>
-          <div class="msr_box01" style="text-align: center;">
+          <div class="" style="text-align: center;">
             <span>
               <img src="{{$article->image_url}}" width="400" height="350" alt="img"/>
               <h3 class="ttl">{{$article->title}}</h3>
@@ -18,7 +18,7 @@
             </span>
           </div>
         </div>
-        <div class="everyone-talk" style="width:800px">
+        <div class="everyone-talk">
           <div class="head-4">
             <h4>みんなのトーク</h4>
             {{-- <div class="loader">Loading...</div> --}}

@@ -192,7 +192,7 @@ div.box {
 #footer-btn {
   position: fixed;
   bottom: 20px;
-  width: 20%;
+  /* width: 20%; */
   right: 80px;
   background-color: #CC0033;
 }
