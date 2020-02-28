@@ -46,4 +46,5 @@
     </div>
   </div>
 </div>
+@include('notification.index')
 @endsection
