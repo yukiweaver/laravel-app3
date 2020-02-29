@@ -19,4 +19,6 @@ Route::post('reply_post/create', 'ReplyPostController@create')->name('r_create')
 Route::post('notification/index', 'NotificationController@index')->name('n_index');
 Route::post('notification/update', 'NotificationController@update')->name('n_update');
 Route::get('/description', 'ArticleController@description')->name('description');
+Route::get('/policy', 'ArticleController@policy')->name('policy');
+Route::get('/inquiry', 'ArticleController@inquiry')->name('inquiry');
 

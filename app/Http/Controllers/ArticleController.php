@@ -106,6 +106,16 @@ class ArticleController extends Controller
     $viewParams = [];
     return view('article.description', $viewParams);
   }
+  /**
+   * プライバシーポリシー表示アクション
+   */
+  public function policy()
+  {
+    $viewParams = [];
+    return view('article.policy', $viewParams);
+  }
+
+
 
   // private
 
@@ -204,7 +214,7 @@ class ArticleController extends Controller
     return $validator;
   }
 
-  // 合計ページ数から配列を返すkaesu
+  // 合計ページ数から配列を返す
   private function totalPages($total) {
     $totalPages = [];
     if (isset($total)) {
