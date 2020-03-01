@@ -93,12 +93,12 @@ return [
     */
 
     // 'username' => env('MAIL_USERNAME'),
-    // 'username' => env('MAIL_USERNAME', 'yuki.weaver1204@gmail.com'),
-    'username' => env('MAIL_USERNAME', null),
+    'username' => env('MAIL_USERNAME', 'yuki.weaver1204@gmail.com'),
+    // 'username' => env('MAIL_USERNAME', null),
 
     // 'password' => env('MAIL_PASSWORD'),
     // 'password' => env('MAIL_PASSWORD', 'Yuki03161204'),
-    'password' => env('MAIL_PASSWORD', null),
+    'password' => env('MAIL_PASSWORD', 'bsydyynbkxrbymze'),
 
     /*
     |--------------------------------------------------------------------------
