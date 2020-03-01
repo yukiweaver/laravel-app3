@@ -42,6 +42,7 @@
         }
       });
   </script>
+  <script data-ad-client="ca-pub-5906775618962655" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
 </head>
 <body>
   <header>
