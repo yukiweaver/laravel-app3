@@ -20,5 +20,7 @@ Route::post('notification/index', 'NotificationController@index')->name('n_index
 Route::post('notification/update', 'NotificationController@update')->name('n_update');
 Route::get('/description', 'ArticleController@description')->name('description');
 Route::get('/policy', 'ArticleController@policy')->name('policy');
-Route::get('/inquiry', 'ArticleController@inquiry')->name('inquiry');
+Route::get('/contact', 'ContactController@index')->name('contact.index');
+Route::post('/contact/confirm', 'ContactController@confirm')->name('contact.confirm');
+Route::post('/contact/thanks', 'ContactController@send')->name('contact.send');
 
