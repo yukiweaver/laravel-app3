@@ -84,7 +84,7 @@
 
   <!-- footer -->
   <footer>
-    <p>© 2020 Created by Yuki Ueno.</p>
+    {{-- <p>© 2020 Created by Yuki Ueno.</p> --}}
     <a href="{{route('contact.index')}}">お問い合わせ</a> / 
     <a href="{{route('policy')}}">プライバシーポリシー</a>
   </footer>
