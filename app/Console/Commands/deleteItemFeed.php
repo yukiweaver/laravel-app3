@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use App\Article;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 
 class deleteItemFeed extends Command
 {
@@ -43,12 +44,12 @@ class deleteItemFeed extends Command
     {
         $count = Article::count();
         if ($count < self::MAX) {
-          \Log::info('記事件数が' . self::MAX . '未満のため削除なしで処理終了');
+          Log::info('記事件数が' . self::MAX . '未満のため削除なしで処理終了');
           exit;
         }
         $articles = Article::orderBy('id', 'asc')->take(self::DELETE_RECORD_CNT)->get();
         if ($articles->isEmpty()) {
-          \Log::error('削除対象の記事が取得できませんでした。');
+          Log::error('削除対象の記事が取得できませんでした。');
           exit;
         }
         try {
@@ -57,7 +58,7 @@ class deleteItemFeed extends Command
           }
           DB::commit();
         } catch (\Exception $e) {
-          \Log::error('DBエラー発生。');
+          Log::error('DBエラー発生。');
           DB::rollback();
         }
         echo '処理終了';
