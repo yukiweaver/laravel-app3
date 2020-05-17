@@ -11,7 +11,7 @@ class Article extends Model
    * 記事が持つ投稿データを取得
    */
   public function posts() {
-    return $this->hasMany('App\Post', 'user_ip_address');
+    return $this->hasMany('App\Post');
   }
 
   /**

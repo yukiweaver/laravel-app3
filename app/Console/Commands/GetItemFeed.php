@@ -116,9 +116,7 @@ class GetItemFeed extends Command
         'created_at' => Carbon::now(),
         'updated_at' => Carbon::now(),
       ];
-      // dd($goutte);
-      // dd($params);
-      // dd($dbParams);
+      
       if (!empty($dbParams)) {
         DB::beginTransaction();
         try {
